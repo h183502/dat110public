@@ -38,8 +38,8 @@ Do the first Wireshark lab described at http://www-net.cs.umass.edu/wireshark-la
 
 #### Exercise 3 - Communication Protocols
 
-Problem P1 in Kurose and Ross.
+Problem P1 in Chap. 1 of Kurose and Ross.
 
 #### Exercise 4 - Communication Metrics
 
-Problems P6 and P10 in Kurose and Ross.
+Problems P6 and P10 in Chap. 1 of Kurose and Ross.
