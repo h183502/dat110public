@@ -30,7 +30,7 @@ Modify the IoT system from such that multiple temperature devices (threads) can 
 
 ##### 1.5
 
-Modify the IoT system from 2. such that instead of using a [`sleep()`](https://docs.oracle.com/javase/tutorial/essential/concurrency/sleep.html) in the display-thread, then [`wait and notify`](https://docs.oracle.com/javase/tutorial/essential/concurrency/guardmeth.html) are used such that the sensor-threads wakeup the display-thread when a new temperature has been reported.
+Modify the IoT system from item 1.2. such that instead of using a [`sleep()`](https://docs.oracle.com/javase/tutorial/essential/concurrency/sleep.html) in the display-thread, then [`wait and notify`](https://docs.oracle.com/javase/tutorial/essential/concurrency/guardmeth.html) are used such that the sensor-threads wakeup the display-thread when a new temperature has been reported.
 
 #### Exercise 2 - Wireshark
 
