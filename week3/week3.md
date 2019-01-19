@@ -28,9 +28,11 @@ Team up with one of the other students and try to run the client-side on one mac
 
 ##### 1.4
 
-Experiment with the network application. What happens if you start two servers on the same port?
+Experiment with the network application.
 
-Modify the server such that it sleeps for some number of seconds before returning a response. What happens a TCP client attempts to connect when there is already another TCP client request being served?
+- What happens if you start two servers on the same port?
+- What happens if the TCP client attempts to connect to the server but the server is not running?
+- Modify the server such that it sleeps for some number of seconds before returning a response. What happens a TCP client attempts to connect when there is already another TCP client request being served?
 
 ##### 1.5
 
