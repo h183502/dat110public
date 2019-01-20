@@ -9,7 +9,7 @@ import no.hvl.dat110.rmiinterface.ComputeInterface;
 public class ComputeImpl implements ComputeInterface{
 	
 	public ComputeImpl() {
-		super();
+	
 	}
 
 	public int addNumbers(int a, int b) {

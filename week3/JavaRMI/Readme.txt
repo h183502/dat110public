@@ -32,8 +32,8 @@ How is the message passed?
 
 Run wireshark
 
-Repeat the steps 1 - 3 and check the packets captured by wireshark. 
-In particular, pay attention to the Java RMI protocol implemented on top of the TCP.
+Repeat the steps A - D and check the packets captured by wireshark. 
+In particular, pay attention to the Java RMI middleware protocol implemented on top of the TCP.
 
 
 
