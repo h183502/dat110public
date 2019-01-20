@@ -1,5 +1,7 @@
 ### Lab Week 3: 21/01 - 25/01
 
+**REMEMBER** to complete the [end-of-week 2 practice quiz](https://hvl.instructure.com/courses/6156/quizzes/3366)
+
 #### Exercise 1 - Socket and Network Programming - Warmup
 
 Consider the client-server echo network application covered in the lecture on Friday 18.1. The source Java code for the TCP and the UDP implementation is available from here:
