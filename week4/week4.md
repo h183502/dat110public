@@ -2,32 +2,46 @@
 
 ** WARNING: assignment under construction - nothing final yet
 
-##### Introduction
+##### Organisation
 
-The labs in week 4 is devoted to project work which is to be undertaken groups of 2-3 students. There will be no lecture on Wednesday 30.01 on the lecture on Friday will serve as an extra lab where the groups can received additional help and/or demonstrate their running application.
+Week 4 is devoted to project work which is to be undertaken in groups of 2-3 students.
 
-The project builds on socket programming and network applications and aims to consolidate some important concepts that have been covered until now in the course: layering, services, protocol design, headers, encapsulation/decapsulation, and marshalling/unmarshalling of parameters.
+There will be no lecture and no lab Wednesday/Thursday due to travelling. The lectures and teaching assistants will be available on Monday 28.1 and on Friday 1.2 in the normal lecture and lab hours.
 
-In the first project of the project you will implement a messaging layer and a simplified remote-method-invocation (RMI) middleware on top of the TCP transport protocol. In the second part, you will implement a small IoT system which exploits the service provided by the RMI middleware.
+You are therefore also strongly encouraged to use the discussion forum at Canvas through out the week
+
+##### Overview
+
+The project builds on socket programming and network applications and aims to consolidate important concepts that have been covered until now in the course: layering, services, protocol design, headers, encapsulation/decapsulation, remote procedure calls (RPC), and marshalling/unmarshalling of parameters.
+
+The project is comprised of three main parts
+
+- implementation of a messaging layer on top of TCP socket for exchanging short messages between a client and a server
+- implementation of a light-weight RPC layer/middleware on top of the messaging layers
+- application of the RPC layer for realising an IoT network application comprised of a sensor, and display, and a controller
 
 ##### Getting Started
 
-You should start by cloning the Java code which can be found in the git repository XXX.
+You should start by cloning the Java code which can be found in the github repository
 
-- describe how to import this into an own repository for the group.
+TODO: provide link
 
-##### Messaging Layer
+TODO: describe how to import this into an own repository for the group.
+
+In addition to providing start-code in the form of an Eclipse project, it also contains a number of unit tests which can be used for some basic testing of the implemented functionality.
+
+##### Exercise 1: Messaging layer
 
 - describe protocol
 - describe what has to be implemented
 - add some basic unit tests
 
-##### Remote Methods Invocation
+##### Exercise 2: RPC layer
 
 - protocol to be designed on to of the messaging layers
 - optional - keep alive feature
 
-##### IoT system implementation
+##### Exercise 3: IoT network application
 
 - controller, temperature device, heating element ?, and display - with the controller acting as a coordinating client
 
