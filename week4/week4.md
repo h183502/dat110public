@@ -1,14 +1,12 @@
 ### Week 4 Project : 28.01 - 01.02
 
-** WARNING: assignment under construction - nothing final yet**
-
 #### Organisation
 
 Week 4 is devoted to project work which is to be undertaken in groups of 2-3 students.
 
-There will be no lecture and no lab Wednesday/Thursday due to travelling. The lectures and teaching assistants will be available on Monday 28.1 and on Friday 1.2 in the normal lecture and lab hours.
+There will be no lecture and no lab Wednesday/Thursday due to travelling. The lectures and teaching assistants will be available on Monday 28.1 and on Friday 1.2 in the normal lecture and lab-hours.
 
-You are therefore also strongly encouraged to use the discussion forum at Canvas through out the week
+You are therefore also strongly encouraged to use the [discussion forum](https://hvl.instructure.com/courses/6156/discussion_topics/30353) in Canvas throughout the week.
 
 #### Overview
 
@@ -25,7 +23,6 @@ The project is comprised of three main parts
 You should start by cloning the Java code which can be found in the github repository
 
 **TODO**: provide link
-
 
 In addition to providing start-code in the form of an Eclipse project, it also contains a number of unit tests which can be used for some basic testing of the implemented functionality.
 
@@ -127,4 +124,4 @@ If everything has been implemented correctly, you should not be able to start th
 
 Each group must hand in a link on Canvas to a git-repository containing their implementation. You should keep the unit test in the project as they are as we will use these for testing your implementation.
 
-Please remember to hand-in as a group in Canvas: 
+Please remember to hand-in as a group in Canvas: https://hvl365-my.sharepoint.com/:w:/g/personal/akv_hvl_no/EdkQXNKVjmhPrHNtD3n5r74B6KSb7DwmVYf9MA3SIUA4Sw?e=hC5Q9i
