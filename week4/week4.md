@@ -22,7 +22,7 @@ The project is comprised of three main tasks
 
 You should start by cloning the Java code which can be found in the github repository
 
-**TODO**: provide link
+https://github.com/selabhvl/dat110-project1-startcode.git
 
 which contains an Eclipse-project with start-code. In addition, it also contains a number of unit tests which can be used for some basic testing of the implemented functionality.
 
