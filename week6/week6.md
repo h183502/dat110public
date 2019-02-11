@@ -77,7 +77,7 @@ password:
 Test that you can connect to CloudMQTT and publish/subscribe to the ‘Temp’ topic by running the main method in the MQTTSubTest and MQTTPubTest classes.
 
 ##### Exercise 3.1 - IoT System with Message Broker
-You will be implementing the virtual IoT devices as clients using the Eclipse Paho MQTT https://www.eclipse.org/paho/ for publishing and subscribing. That is the TemperatureDevice publishes the temperature reading to the CloudMQTT using the topic "Temp" while the DisplayDevice subscribes to the topic "Temp" on CloudMQTT from where it receives the temperature reading.
+You will be implementing the virtual IoT devices as clients using the Eclipse Paho MQTT https://www.eclipse.org/paho/ for publishing and subscribing. That is: the TemperatureDevice publishes the temperature reading to the CloudMQTT using the topic "Temp" while the DisplayDevice subscribes to the topic "Temp" on CloudMQTT from where it receives the temperature reading.
 
 To get you started, you are provided with an initial implementation of the system which is available from here:
 
