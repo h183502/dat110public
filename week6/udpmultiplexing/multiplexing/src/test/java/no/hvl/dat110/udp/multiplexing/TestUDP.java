@@ -1,21 +1,21 @@
 package no.hvl.dat110.udp.multiplexing;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.*;
 
-class TestUDP {
+import org.junit.Test;
+
+public class TestUDP {
 
 	private static String TESTHOST = "localhost";
 	private static int TESTPORT = 8080;
 	private static String TESTMESSAGE = "TEST";
 	
 	@Test
-	void test() throws SocketException, UnknownHostException {
+	public void test() throws SocketException, UnknownHostException {
 
 		UDPSender sender = new UDPSender(TESTHOST, TESTPORT);
 		UDPReceiver receiver = new UDPReceiver(TESTPORT);
