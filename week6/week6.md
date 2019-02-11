@@ -8,7 +8,7 @@ https://github.com/selabhvl/dat110public/tree/master/week6/rdt
 
 The main goal of this exercise is to start becoming familiar with this framework.
 
-### Exercise 1.1
+##### Exercise 1.1
 
 Start by importing the project into your IDE (Eclipse) and make sure that the classes and the tests compiles.
 
@@ -24,7 +24,7 @@ The project is organised into the following packages
 
 - `no.hvl.dat110.trasport.tests` implements some JUnit-tests for testing the transport protocols. The basic requirement is that the receiver must receive all data from the sender and in correct order.
 
-### Exercise 1.2
+##### Exercise 1.2
 
 Perform the following experiments
 
@@ -38,7 +38,23 @@ Perform the following experiments
 
 #### Exercise 2 - Handling Corrupt ACK/NAK segments
 
-- description is underway
+The `Adversary2.java` class implements a network adversary that at random sets the checksum in the transmitted segment to `0` thereby simulating a transmission errors. This in will case the `doProcess()` methods in `TransportReceiverRDT2.java` to detect that the receive segment has a checksum errors and therefore send a NAK segment.
+
+Methods for calculating and checking checksums can be found in the `Segment.java` class.
+
+As a checksum of `0` is the correct checksum for ACK and NAK segments (see Segment-constructors), then this effectively mean that only DATA segments can have transmission errors.
+
+##### Exercise 2.1
+
+Modify the implementation of the `Segment.java` class such that the correct checksum simulating a transmission error is set to 1. This means that also ACK/NAK can have checksum errors.
+
+##### Exercise 2.2
+
+Augment the implementation of the sender side in the rdt2.0 transport protocol in `TransportSenderRDT2.java` such that the sender checks for any transmission errors on ACK and NAK segments.
+
+What could/should the sender do in case a corrupt ACK / NAK segment is received? 
+
+Implement you proposed solution and use the `TestRDT2BitErrors.java` test test the solution. You can modify the probability of transmission errors by adjusting the value `CORRUPTPB` in `TestRDT2BitErrors.java`
 
 #### Exercise 3 - CloudMQTT
 
