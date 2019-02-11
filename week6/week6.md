@@ -56,6 +56,50 @@ What could/should the sender do in case a corrupt ACK / NAK segment is received?
 
 Implement you proposed solution and use the `TestRDT2BitErrors.java` test test the solution. You can modify the probability of transmission errors by adjusting the value `CORRUPTPB` in `TestRDT2BitErrors.java`
 
-#### Exercise 3 - CloudMQTT
+#### Exercise 3 - CloudMQTT (Message-Oriented Middleware)
 
-- description is underway
+These exercises are based on Message-Oriented Middleware
+
+In this exercise, you will implement the IoT system using a message-oriented middleware based in the cloud and optionally, a broker installed locally on your machine.
+
+To get started with the exercise, you should perform tasks 1 and 2.
+
+##### Task 1 - Setup CloudMQTT
+We will use CloudMQTT as the broker for subscribing to and publishing messages to topics. You have to register for a free account (Cute Cat) on CloudMQTT (Broker/Server) by going to https://www.cloudmqtt.com
+
+##### Task 2 - Test Connection to CloudMQTT
+
+To test whether you can connect to CloudMQTT, you need to provide the following information in the Config class (located in no.hvl.dat110.mqtt.brokerclient.test) which are then used by the publisher and subscriber classes. These can be obtained from your CloudMQTT account:
+
+broker: tcp://your-cloudmqtt-instance:port
+username:
+password:
+Test that you can connect to CloudMQTT and publish/subscribe to the ‘Temp’ topic by running the main method in the MQTTSubTest and MQTTPubTest classes.
+
+##### Exercise 3.1 - IoT System with Message Broker
+You will be implementing the virtual IoT devices as clients using the Eclipse Paho MQTT https://www.eclipse.org/paho/ for publishing and subscribing. That is the TemperatureDevice publishes the temperature reading to the CloudMQTT using the topic "Temp" while the DisplayDevice subscribes to the topic "Temp" on CloudMQTT from where it receives the temperature reading.
+
+To get you started, you are provided with an initial implementation of the system which is available from here:
+
+https://github.com/selabhvl/dat110public/tree/master/week6/CloudMQTT-iotthreads-exercise
+
+as an Eclipse project.
+The Paho client jar is located under the lib folder. Make sure you import the jar as an external jar into your eclipse project (Configure build path).
+
+The project contains implementations of a virtual temperature sensor and a display that you have used in previous exercises. Your task is to implement the missing parts in the TemperatureDevice and DisplayDevice classes. 
+
+Run the IoTSystem class located in the package "no.hvl.dat110.simulation" to test that your implementation is working.
+
+A short tutorial on Paho-MQTT client that explains how MQTT works and the meanings of the configuration parameters can be found here: https://github.com/selabhvl/dat110public/blob/master/week6/mqtt-paho-client-tutorial.pdf
+
+##### Exercise 3.2 (Optional) - Use Mosquitto broker instead of CloudMQTT
+
+Instead of using CloudMQTT broker, you should now download and configure Mosquitto message broker on your machine.
+Download from: http://mosquitto.org/download/
+Follow the instructions for installation and starting the broker. 
+
+To switch the broker to Mosquitto in your source code using default configurations:
+- Start the Mosquitto broker on your machine
+- Go to the Config class and change the 'broker = "tcp://<hostname:port>";' to something like: broker = "tcp://localhost:1883";
+- Clear the username and password fields.
+- Run the IoTSystem to see that everything is properly configured.
