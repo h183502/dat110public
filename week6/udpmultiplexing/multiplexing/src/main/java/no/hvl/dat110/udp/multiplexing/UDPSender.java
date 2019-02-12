@@ -17,13 +17,14 @@ public class UDPSender {
 
 	}
 
-	public boolean send(byte[] message) {
+	public boolean send(byte[] data) {
 
 		boolean sent = true;
 		
 		try {
 
-			DatagramPacket datagram = new DatagramPacket(message, message.length, address, port);
+			DatagramPacket datagram = 
+					new DatagramPacket(data, data.length, address, port);
 
 			socket.send(datagram);
 
@@ -41,6 +42,5 @@ public class UDPSender {
 		if (socket != null) {
 			socket.close();
 		}
-
 	}
 }

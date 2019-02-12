@@ -22,7 +22,7 @@ public class ReceiverProcess {
 			
 		} catch (Exception ex) {
 
-			System.out.println("SenderProcess " + ex.getMessage());
+			System.out.println("ReceiverProcess " + ex.getMessage());
 			ex.printStackTrace();
 		}
 

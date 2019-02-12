@@ -18,7 +18,9 @@ public class SenderProcess {
 		UDPSender sender = null;
 
 		try {
+			
 			sender = new UDPSender(host, port);
+			
 		} catch (Exception ex) {
 
 			System.out.println("SenderProcess " + ex.getMessage());
@@ -32,7 +34,7 @@ public class SenderProcess {
 
 		do {
 
-			System.out.println("!");
+			System.out.print("!");
 
 			input = new Scanner(System.in);
 
