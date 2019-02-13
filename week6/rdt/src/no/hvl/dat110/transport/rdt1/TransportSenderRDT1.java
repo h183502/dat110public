@@ -4,21 +4,20 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import no.hvl.dat110.transport.*;
-import no.hvl.dat110.network.Datagram;
 
 public class TransportSenderRDT1 extends TransportSender implements ITransportProtocolEntity {
 
-	protected LinkedBlockingQueue<Segment> outqueue;
+	private LinkedBlockingQueue<byte[]> outdataqueue;
 
 	public TransportSenderRDT1() {
 		super("TransportSender");
-		outqueue = new LinkedBlockingQueue<Segment>();
+		outdataqueue = new LinkedBlockingQueue<byte[]>();
 	}
 		
 	public void rdt_send(byte[] data) {
 
 		try {
-			outqueue.put(new Segment(data));
+			outdataqueue.put(data);
 		} catch (InterruptedException ex) {
 			System.out.println("TransportSender thread " + ex.getMessage());
 			ex.printStackTrace();
@@ -33,10 +32,10 @@ public class TransportSenderRDT1 extends TransportSender implements ITransportPr
 	public void doProcess() {
 
 		try {
-			Segment segment = outqueue.poll(2, TimeUnit.SECONDS);
+			byte[] data = outdataqueue.poll(2, TimeUnit.SECONDS);
 
-			if (segment != null) {
-				udt_send(segment);
+			if (data != null) {
+				udt_send(new Segment(data));
 			}
 
 		} catch (InterruptedException ex) {

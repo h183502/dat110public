@@ -7,13 +7,13 @@ import no.hvl.dat110.transport.*;
 
 public class TransportReceiverRDT2 extends TransportReceiver implements ITransportProtocolEntity {
 
-	private LinkedBlockingQueue<Segment> inqueue;
+	private LinkedBlockingQueue<SegmentRDT2> inqueue;
 	private RDT2ReceiverStates state;
 
 	public TransportReceiverRDT2() {
 		super("TransportReceiver");
 		state = RDT2ReceiverStates.WAITING;
-		inqueue = new LinkedBlockingQueue<Segment>();
+		inqueue = new LinkedBlockingQueue<SegmentRDT2>();
 	}
 	
 	// network service will call this method when segments arrive
@@ -22,7 +22,7 @@ public class TransportReceiverRDT2 extends TransportReceiver implements ITranspo
 		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
 
 		try {
-			inqueue.put(segment);
+			inqueue.put((SegmentRDT2)segment);
 		} catch (InterruptedException ex) {
 
 			System.out.println("Transport receiver  " + ex.getMessage());
@@ -41,7 +41,7 @@ public class TransportReceiverRDT2 extends TransportReceiver implements ITranspo
 
 			try {
 
-				segment = (SegmentRDT2)inqueue.poll(2, TimeUnit.SECONDS);
+				segment = inqueue.poll(2, TimeUnit.SECONDS);
 
 			} catch (InterruptedException ex) {
 				System.out.println("TransportReceiver RDT2 - doProcess " + ex.getMessage());

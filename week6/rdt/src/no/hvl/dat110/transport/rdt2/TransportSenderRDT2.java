@@ -3,42 +3,31 @@ package no.hvl.dat110.transport.rdt2;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import no.hvl.dat110.network.Datagram;
-import no.hvl.dat110.network.NetworkService;
-import no.hvl.dat110.transport.Segment;
-import no.hvl.dat110.transport.rdt1.TransportSenderRDT1;
+import no.hvl.dat110.transport.*;
 
-public class TransportSenderRDT2 extends TransportSenderRDT1 {
+public class TransportSenderRDT2 extends TransportSender implements ITransportProtocolEntity {
 
-	protected LinkedBlockingQueue<SegmentRDT2> recvqueue;
+	private LinkedBlockingQueue<byte[]> outdataqueue;
+	private LinkedBlockingQueue<SegmentRDT2> recvqueue;
 	private RDT2SenderStates state;
 
 	public TransportSenderRDT2() {
-		super();
+		super("TransportSender");
 		recvqueue = new LinkedBlockingQueue<SegmentRDT2>();
+		outdataqueue = new LinkedBlockingQueue<byte[]>();
 		state = RDT2SenderStates.WAITDATA;
 	}
-
-	/*
-	public TransportSenderRDT2(NetworkService ns) {
-		super(ns);
-		recvqueue = new LinkedBlockingQueue<SegmentRDT2>();
-		state = RDT2SenderStates.WAITDATA;
-	}
-	*/
 	
-	@Override 
 	public void rdt_send(byte[] data) {
 	
 		try {
-			outqueue.put(new SegmentRDT2(data));
+			outdataqueue.put(data);
 		} catch (InterruptedException ex) {
 			System.out.println("TransportSender thread " + ex.getMessage());
 			ex.printStackTrace();
 		}
 	}
 	
-	@Override
 	public void rdt_recv(Segment segment) {
 
 		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
@@ -49,10 +38,9 @@ public class TransportSenderRDT2 extends TransportSenderRDT1 {
 			System.out.println("TransportSenderRDT2 thread " + ex.getMessage());
 			ex.printStackTrace();
 		}
-		// do not do anything in the transport sender entity
 	}
 
-	private SegmentRDT2 datasegment = null;
+	private byte[] data = null;
 
 	public void doProcess() {
 
@@ -78,12 +66,11 @@ public class TransportSenderRDT2 extends TransportSenderRDT1 {
 
 	private void doWaitData() {
 		try {
-			datasegment = (SegmentRDT2)outqueue.poll(2, TimeUnit.SECONDS);
+			data = outdataqueue.poll(2, TimeUnit.SECONDS);
 
-			if (datasegment != null) {
+			if (data != null) { // something to send
 
-				// something to send
-				udt_send(datasegment);
+				udt_send(new SegmentRDT2(data));
 
 				state = RDT2SenderStates.WAITACKNAK;
 			}
@@ -93,10 +80,11 @@ public class TransportSenderRDT2 extends TransportSenderRDT1 {
 			ex.printStackTrace();
 		}
 	}
+	
 	private void doWaitAckNak() {
 		try {
 
-			SegmentRDT2 acksegment = (SegmentRDT2)recvqueue.poll(2, TimeUnit.SECONDS);
+			SegmentRDT2 acksegment = recvqueue.poll(2, TimeUnit.SECONDS);
 
 			if (acksegment != null) {
 
@@ -105,11 +93,11 @@ public class TransportSenderRDT2 extends TransportSenderRDT1 {
 				if (type == SegmentType.ACK) {
 
 					System.out.println("[Transport:Sender   ] ACK ");
-					datasegment = null;
+					data = null;
 					state = RDT2SenderStates.WAITDATA;
 				} else {
 					System.out.println("[Transport:Sender   ] NAK ");
-					udt_send(datasegment);
+					udt_send(new SegmentRDT2(data));
 				}
 			}
 
