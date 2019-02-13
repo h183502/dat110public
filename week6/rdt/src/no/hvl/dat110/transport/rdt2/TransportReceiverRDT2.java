@@ -13,12 +13,12 @@ public class TransportReceiverRDT2 extends TransportReceiver implements ITranspo
 	
 	private RDT2ReceiverStates state;
 	
-	private LinkedBlockingQueue<SegmentRDT2> inqueue;
+	private LinkedBlockingQueue<SegmentRDT2> inqsegueue;
 
 	public TransportReceiverRDT2() {
 		super("TransportReceiver");
 		state = RDT2ReceiverStates.WAITING;
-		inqueue = new LinkedBlockingQueue<SegmentRDT2>();
+		inqsegueue = new LinkedBlockingQueue<SegmentRDT2>();
 	}
 	
 	// network service will call this method when segments arrive
@@ -27,7 +27,7 @@ public class TransportReceiverRDT2 extends TransportReceiver implements ITranspo
 		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
 
 		try {
-			inqueue.put((SegmentRDT2)segment);
+			inqsegueue.put((SegmentRDT2)segment);
 		} catch (InterruptedException ex) {
 
 			System.out.println("Transport receiver  " + ex.getMessage());
@@ -46,7 +46,7 @@ public class TransportReceiverRDT2 extends TransportReceiver implements ITranspo
 
 			try {
 
-				segment = inqueue.poll(2, TimeUnit.SECONDS);
+				segment = inqsegueue.poll(2, TimeUnit.SECONDS);
 
 			} catch (InterruptedException ex) {
 				System.out.println("TransportReceiver RDT2 - doProcess " + ex.getMessage());
