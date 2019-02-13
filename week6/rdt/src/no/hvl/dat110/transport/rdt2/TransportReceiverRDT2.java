@@ -1,32 +1,36 @@
 package no.hvl.dat110.transport.rdt2;
 
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import no.hvl.dat110.network.NetworkService;
-import no.hvl.dat110.network.Datagram;
-import no.hvl.dat110.transport.Segment;
-import no.hvl.dat110.transport.rdt1.TransportReceiver;
+import no.hvl.dat110.transport.*;
 
-public class TransportReceiverRDT2 extends TransportReceiver {
+public class TransportReceiverRDT2 extends TransportReceiver implements ITransportProtocolEntity {
 
+	private LinkedBlockingQueue<Segment> inqueue;
 	private RDT2ReceiverStates state;
 
 	public TransportReceiverRDT2() {
-		super();
+		super("TransportReceiver");
 		state = RDT2ReceiverStates.WAITING;
+		inqueue = new LinkedBlockingQueue<Segment>();
 	}
 	
-	public TransportReceiverRDT2(NetworkService ns) {
-		super(ns);
-		state = RDT2ReceiverStates.WAITING;
-	}
+	// network service will call this method when segments arrive
+	public final void rdt_recv(Segment segment) {
 
-	@Override
-	public void udt_send(Segment segment) {
-		System.out.println("[Transport:Sender   ] udt_send: " + segment.toString());
-		ns.udt_send(new Datagram(segment));
-	}
+		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
 
+		try {
+			inqueue.put(segment);
+		} catch (InterruptedException ex) {
+
+			System.out.println("Transport receiver  " + ex.getMessage());
+			ex.printStackTrace();
+		}
+
+	}
+	
 	public void doProcess() {
 
 		SegmentRDT2 segment = null;

@@ -2,7 +2,7 @@ package no.hvl.dat110.application;
 
 import java.util.ArrayList;
 
-import no.hvl.dat110.transport.rdt1.TransportReceiver;
+import no.hvl.dat110.transport.TransportReceiver;
 
 public class ReceiverProcess {
 

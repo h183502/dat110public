@@ -6,9 +6,9 @@ import java.util.concurrent.TimeUnit;
 import no.hvl.dat110.network.Datagram;
 import no.hvl.dat110.network.NetworkService;
 import no.hvl.dat110.transport.Segment;
-import no.hvl.dat110.transport.rdt1.TransportSender;
+import no.hvl.dat110.transport.rdt1.TransportSenderRDT1;
 
-public class TransportSenderRDT2 extends TransportSender {
+public class TransportSenderRDT2 extends TransportSenderRDT1 {
 
 	protected LinkedBlockingQueue<SegmentRDT2> recvqueue;
 	private RDT2SenderStates state;
@@ -19,11 +19,13 @@ public class TransportSenderRDT2 extends TransportSender {
 		state = RDT2SenderStates.WAITDATA;
 	}
 
+	/*
 	public TransportSenderRDT2(NetworkService ns) {
 		super(ns);
 		recvqueue = new LinkedBlockingQueue<SegmentRDT2>();
 		state = RDT2SenderStates.WAITDATA;
 	}
+	*/
 	
 	@Override 
 	public void rdt_send(byte[] data) {
