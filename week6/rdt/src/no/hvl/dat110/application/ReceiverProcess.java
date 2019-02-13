@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import no.hvl.dat110.transport.TransportReceiver;
 
-public class ReceiverProcess extends Thread {
+public class ReceiverProcess {
 
 	private ArrayList<byte[]> datarecv;
 	
