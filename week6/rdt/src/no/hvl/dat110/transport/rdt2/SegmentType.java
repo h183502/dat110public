@@ -1,4 +1,4 @@
-package no.hvl.dat110.transport;
+package no.hvl.dat110.transport.rdt2;
 
 public enum SegmentType {
 	DATA,

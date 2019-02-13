@@ -3,6 +3,8 @@ package no.hvl.dat110.application;
 import no.hvl.dat110.network.Network;
 import no.hvl.dat110.network.Adversary;
 import no.hvl.dat110.transport.*;
+import no.hvl.dat110.transport.rdt1.TransportReceiver;
+import no.hvl.dat110.transport.rdt1.TransportSender;
 
 public class Main {
 

@@ -1,7 +1,6 @@
 package no.hvl.dat110.network;
 
 import no.hvl.dat110.transport.*;
-import no.hvl.dat110.application.Stopable;
 
 public class NetworkService extends Stopable {
 

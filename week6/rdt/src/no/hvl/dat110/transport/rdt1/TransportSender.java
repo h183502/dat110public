@@ -1,11 +1,13 @@
-package no.hvl.dat110.transport;
+package no.hvl.dat110.transport.rdt1;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import no.hvl.dat110.network.NetworkService;
+import no.hvl.dat110.transport.ITransportProtocolEntity;
+import no.hvl.dat110.transport.Segment;
+import no.hvl.dat110.transport.Stopable;
 import no.hvl.dat110.network.Datagram;
-import no.hvl.dat110.application.Stopable;
 
 public class TransportSender extends Stopable implements ITransportProtocolEntity {
 
@@ -29,7 +31,7 @@ public class TransportSender extends Stopable implements ITransportProtocolEntit
 		ns.register(this);
 	}
 	
-	public final void rdt_send(byte[] data) {
+	public void rdt_send(byte[] data) {
 
 		try {
 			outqueue.put(new Segment(data));
@@ -51,6 +53,7 @@ public class TransportSender extends Stopable implements ITransportProtocolEntit
 	}
 	
 	public final void udt_send(Segment segment) {
+		System.out.println("[Transport:Sender   ] udt_send: " + segment.toString());
 		ns.udt_send(new Datagram(segment));
 	}
 	
@@ -60,7 +63,6 @@ public class TransportSender extends Stopable implements ITransportProtocolEntit
 			Segment segment = outqueue.poll(2, TimeUnit.SECONDS);
 
 			if (segment != null) {
-				System.out.println("[Transport:Sender   ] udt_send: " + segment.toString());
 				udt_send(segment);
 			}
 

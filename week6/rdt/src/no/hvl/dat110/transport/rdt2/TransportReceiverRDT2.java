@@ -5,8 +5,7 @@ import java.util.concurrent.TimeUnit;
 import no.hvl.dat110.network.NetworkService;
 import no.hvl.dat110.network.Datagram;
 import no.hvl.dat110.transport.Segment;
-import no.hvl.dat110.transport.SegmentType;
-import no.hvl.dat110.transport.TransportReceiver;
+import no.hvl.dat110.transport.rdt1.TransportReceiver;
 
 public class TransportReceiverRDT2 extends TransportReceiver {
 
@@ -24,12 +23,13 @@ public class TransportReceiverRDT2 extends TransportReceiver {
 
 	@Override
 	public void udt_send(Segment segment) {
+		System.out.println("[Transport:Sender   ] udt_send: " + segment.toString());
 		ns.udt_send(new Datagram(segment));
 	}
 
 	public void doProcess() {
 
-		Segment segment = null;
+		SegmentRDT2 segment = null;
 
 		switch (state) {
 
@@ -37,7 +37,7 @@ public class TransportReceiverRDT2 extends TransportReceiver {
 
 			try {
 
-				segment = inqueue.poll(2, TimeUnit.SECONDS);
+				segment = (SegmentRDT2)inqueue.poll(2, TimeUnit.SECONDS);
 
 			} catch (InterruptedException ex) {
 				System.out.println("TransportReceiver RDT2 - doProcess " + ex.getMessage());
@@ -54,11 +54,11 @@ public class TransportReceiverRDT2 extends TransportReceiver {
 					deliver_data(segment.getData());
 
 					// send an ack to the sender
-					acksegment = new Segment(SegmentType.ACK);
+					acksegment = new SegmentRDT2(SegmentType.ACK);
 					
 				} else {
 					// send an ack to the sender
-					acksegment = new Segment(SegmentType.NAK);
+					acksegment = new SegmentRDT2(SegmentType.NAK);
 				}
 
 				udt_send(acksegment);

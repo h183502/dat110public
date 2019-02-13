@@ -1,4 +1,4 @@
-package no.hvl.dat110.transport.tests;
+package no.hvl.dat110.transport.rdt2;
 
 import no.hvl.dat110.network.Adversary;
 import no.hvl.dat110.network.Datagram;
@@ -13,10 +13,10 @@ public class AdversaryRDT2 extends Adversary {
 		
 		if (Math.random() < CORRUPTPB) {
 			
-			System.out.println("-");
-			Segment segment = datagram.getSegment();
-			
+			SegmentRDT2 segment = (SegmentRDT2) datagram.getSegment();
 			segment.setChecksum(((byte)0));
+			
+			System.out.println("-");
 			
 		} else {
 			System.out.println("+");

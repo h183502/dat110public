@@ -6,10 +6,11 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import no.hvl.dat110.transport.rdt2.AdversaryRDT2;
 import no.hvl.dat110.transport.rdt2.TransportReceiverRDT2;
 import no.hvl.dat110.transport.rdt2.TransportSenderRDT2;
 
-public class TestRDT2BitErrors {
+public class TestRDT2Adversary2 {
 
 	@Test
 	public void test() {

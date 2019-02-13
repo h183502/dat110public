@@ -1,7 +1,9 @@
-package no.hvl.dat110.transport;
+package no.hvl.dat110.transport.rdt1;
 
 import no.hvl.dat110.network.NetworkService;
-import no.hvl.dat110.application.Stopable;
+import no.hvl.dat110.transport.ITransportProtocolEntity;
+import no.hvl.dat110.transport.Segment;
+import no.hvl.dat110.transport.Stopable;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;

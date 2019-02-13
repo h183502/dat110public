@@ -9,8 +9,8 @@ import no.hvl.dat110.application.ReceiverProcess;
 import no.hvl.dat110.application.SenderProcess;
 import no.hvl.dat110.network.Adversary;
 import no.hvl.dat110.network.Network;
-import no.hvl.dat110.transport.TransportReceiver;
-import no.hvl.dat110.transport.TransportSender;
+import no.hvl.dat110.transport.rdt1.TransportReceiver;
+import no.hvl.dat110.transport.rdt1.TransportSender;
 
 public class TestTransport {
 

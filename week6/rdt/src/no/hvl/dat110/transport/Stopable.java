@@ -1,4 +1,4 @@
-package no.hvl.dat110.application;
+package no.hvl.dat110.transport;
 
 public abstract class Stopable extends Thread {
 
