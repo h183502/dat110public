@@ -6,7 +6,7 @@ public class Segment {
 
 	protected byte[] data;
 	protected SegmentType type;
-	protected byte checksum;
+	protected byte checksum; // lecture branch
 	
 	public Segment () {
 		super();
