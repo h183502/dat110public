@@ -7,8 +7,13 @@ import no.hvl.dat110.transport.*;
 
 public class TransportReceiverRDT2 extends TransportReceiver implements ITransportProtocolEntity {
 
-	private LinkedBlockingQueue<SegmentRDT2> inqueue;
+	public enum RDT2ReceiverStates {
+		WAITING;
+	}
+	
 	private RDT2ReceiverStates state;
+	
+	private LinkedBlockingQueue<SegmentRDT2> inqueue;
 
 	public TransportReceiverRDT2() {
 		super("TransportReceiver");

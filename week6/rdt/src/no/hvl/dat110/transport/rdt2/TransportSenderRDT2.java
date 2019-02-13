@@ -7,6 +7,10 @@ import no.hvl.dat110.transport.*;
 
 public class TransportSenderRDT2 extends TransportSender implements ITransportProtocolEntity {
 
+	public enum RDT2SenderStates {
+		WAITDATA, WAITACKNAK;
+	}
+
 	private LinkedBlockingQueue<byte[]> outdataqueue;
 	private LinkedBlockingQueue<SegmentRDT2> recvqueue;
 	private RDT2SenderStates state;
@@ -17,9 +21,9 @@ public class TransportSenderRDT2 extends TransportSender implements ITransportPr
 		outdataqueue = new LinkedBlockingQueue<byte[]>();
 		state = RDT2SenderStates.WAITDATA;
 	}
-	
+
 	public void rdt_send(byte[] data) {
-	
+
 		try {
 			outdataqueue.put(data);
 		} catch (InterruptedException ex) {
@@ -27,13 +31,13 @@ public class TransportSenderRDT2 extends TransportSender implements ITransportPr
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void rdt_recv(Segment segment) {
 
 		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
 
 		try {
-			recvqueue.put((SegmentRDT2)segment);
+			recvqueue.put((SegmentRDT2) segment);
 		} catch (InterruptedException ex) {
 			System.out.println("TransportSenderRDT2 thread " + ex.getMessage());
 			ex.printStackTrace();
@@ -55,9 +59,9 @@ public class TransportSenderRDT2 extends TransportSender implements ITransportPr
 		case WAITACKNAK:
 
 			doWaitAckNak();
-			
+
 			break;
-			
+
 		default:
 			break;
 		}
@@ -80,7 +84,7 @@ public class TransportSenderRDT2 extends TransportSender implements ITransportPr
 			ex.printStackTrace();
 		}
 	}
-	
+
 	private void doWaitAckNak() {
 		try {
 
