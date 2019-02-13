@@ -13,21 +13,23 @@ public class TransportReceiverRDT2 extends TransportReceiver implements ITranspo
 	
 	private RDT2ReceiverStates state;
 	
-	private LinkedBlockingQueue<SegmentRDT2> inqsegueue;
+	private LinkedBlockingQueue<SegmentRDT2> insegqueue;
 
 	public TransportReceiverRDT2() {
 		super("TransportReceiver");
 		state = RDT2ReceiverStates.WAITING;
-		inqsegueue = new LinkedBlockingQueue<SegmentRDT2>();
+		insegqueue = new LinkedBlockingQueue<SegmentRDT2>();
 	}
 	
 	// network service will call this method when segments arrive
-	public final void rdt_recv(Segment segment) {
+	public void rdt_recv(Segment segment) {
 
 		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
 
 		try {
-			inqsegueue.put((SegmentRDT2)segment);
+			
+			insegqueue.put((SegmentRDT2)segment);
+			
 		} catch (InterruptedException ex) {
 
 			System.out.println("Transport receiver  " + ex.getMessage());
@@ -46,7 +48,7 @@ public class TransportReceiverRDT2 extends TransportReceiver implements ITranspo
 
 			try {
 
-				segment = inqsegueue.poll(2, TimeUnit.SECONDS);
+				segment = insegqueue.poll(2, TimeUnit.SECONDS);
 
 			} catch (InterruptedException ex) {
 				System.out.println("TransportReceiver RDT2 - doProcess " + ex.getMessage());
@@ -55,7 +57,7 @@ public class TransportReceiverRDT2 extends TransportReceiver implements ITranspo
 			
 			if (segment != null) {
 
-				Segment acksegment;
+				SegmentType acktype = SegmentType.NAK;
 
 				if (segment.isCorrect()) {
 
@@ -63,14 +65,11 @@ public class TransportReceiverRDT2 extends TransportReceiver implements ITranspo
 					deliver_data(segment.getData());
 
 					// send an ack to the sender
-					acksegment = new SegmentRDT2(SegmentType.ACK);
+					acktype = SegmentType.ACK;
 					
-				} else {
-					// send an ack to the sender
-					acksegment = new SegmentRDT2(SegmentType.NAK);
-				}
-
-				udt_send(acksegment);
+				} 
+				
+				udt_send(new SegmentRDT2(acktype));
 			}
 
 			break;

@@ -25,7 +25,9 @@ public class TransportSenderRDT2 extends TransportSender implements ITransportPr
 	public void rdt_send(byte[] data) {
 
 		try {
+			
 			outdataqueue.put(data);
+			
 		} catch (InterruptedException ex) {
 			System.out.println("TransportSender thread " + ex.getMessage());
 			ex.printStackTrace();
@@ -37,7 +39,9 @@ public class TransportSenderRDT2 extends TransportSender implements ITransportPr
 		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
 
 		try {
+			
 			recvqueue.put((SegmentRDT2) segment);
+			
 		} catch (InterruptedException ex) {
 			System.out.println("TransportSenderRDT2 thread " + ex.getMessage());
 			ex.printStackTrace();
@@ -69,7 +73,9 @@ public class TransportSenderRDT2 extends TransportSender implements ITransportPr
 	}
 
 	private void doWaitData() {
+		
 		try {
+			
 			data = outdataqueue.poll(2, TimeUnit.SECONDS);
 
 			if (data != null) { // something to send
@@ -86,6 +92,7 @@ public class TransportSenderRDT2 extends TransportSender implements ITransportPr
 	}
 
 	private void doWaitAckNak() {
+		
 		try {
 
 			SegmentRDT2 acksegment = recvqueue.poll(2, TimeUnit.SECONDS);
@@ -99,12 +106,13 @@ public class TransportSenderRDT2 extends TransportSender implements ITransportPr
 					System.out.println("[Transport:Sender   ] ACK ");
 					data = null;
 					state = RDT2SenderStates.WAITDATA;
+					
 				} else {
 					System.out.println("[Transport:Sender   ] NAK ");
 					udt_send(new SegmentRDT2(data));
 				}
 			}
-
+			
 		} catch (InterruptedException ex) {
 			System.out.println("TransportSenderRDT2 thread " + ex.getMessage());
 			ex.printStackTrace();

@@ -17,7 +17,9 @@ public class TransportSenderRDT1 extends TransportSender implements ITransportPr
 	public void rdt_send(byte[] data) {
 
 		try {
+			
 			outdataqueue.put(data);
+			
 		} catch (InterruptedException ex) {
 			System.out.println("TransportSender thread " + ex.getMessage());
 			ex.printStackTrace();
@@ -32,6 +34,7 @@ public class TransportSenderRDT1 extends TransportSender implements ITransportPr
 	public void doProcess() {
 
 		try {
+			
 			byte[] data = outdataqueue.poll(2, TimeUnit.SECONDS);
 
 			if (data != null) {

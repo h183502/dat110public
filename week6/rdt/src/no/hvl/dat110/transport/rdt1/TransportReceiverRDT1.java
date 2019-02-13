@@ -33,11 +33,13 @@ public class TransportReceiverRDT1 extends TransportReceiver implements ITranspo
 	public void doProcess() {
 
 		try {
+			
 			Segment segment = insegqueue.poll(2, TimeUnit.SECONDS);
 
 			if (segment != null) {
 				deliver_data(segment.getData());
 			}
+			
 		} catch (InterruptedException ex) {
 			System.out.println("Transport receiver - deliver data " + ex.getMessage());
 			ex.printStackTrace();
