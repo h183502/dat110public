@@ -23,7 +23,12 @@ public class Channel extends Stopable {
 			
 			System.out.print("[Network:"+super.name+ "] transmit: " + datagram.toString());
 			
-			datagramqueue.put(observer.process(datagram));
+			datagram = observer.process(datagram);
+			
+			if (datagram != null) {
+				datagramqueue.put(datagram);
+			}
+		
 			
 		} catch (InterruptedException ex) {
 

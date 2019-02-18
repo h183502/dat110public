@@ -16,7 +16,7 @@ public class AdversaryRDT2 extends Adversary {
 			SegmentRDT2 segment = (SegmentRDT2) datagram.getSegment();
 			segment.setChecksum(((byte)0));
 			
-			System.out.println("-");
+			System.out.println("*");
 			
 		} else {
 			System.out.println("+");

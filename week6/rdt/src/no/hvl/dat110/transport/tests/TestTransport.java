@@ -1,6 +1,6 @@
 package no.hvl.dat110.transport.tests;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,6 +88,8 @@ public class TestTransport {
 	}
 	
 	public void assertRDT() {
+		
+		assertEquals(datasent.size(),datarecv.size());
 		
 		for (int i = 0; i<datasent.size();i++) {
 			assertTrue(equalData(datasent.get(i),datarecv.get(i)));
