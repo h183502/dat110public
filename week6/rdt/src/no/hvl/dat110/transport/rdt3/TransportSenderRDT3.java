@@ -1,16 +1,18 @@
 package no.hvl.dat110.transport.rdt3;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import no.hvl.dat110.transport.*;
 import no.hvl.dat110.transport.rdt2.SegmentType;
 
-
 public class TransportSenderRDT3 extends TransportSender implements ITransportProtocolEntity {
 
 	public enum RDT3SenderStates {
-		WAITDATA0, WAITDATA1, WAITACKNAK0, WAITACKNAK1;
+		WAITDATA0, WAITDATA1, WAITACK0, WAITACK1;
 	}
 
 	private LinkedBlockingQueue<byte[]> outdataqueue; // move to transport sender base class?
@@ -22,6 +24,7 @@ public class TransportSenderRDT3 extends TransportSender implements ITransportPr
 		recvqueue = new LinkedBlockingQueue<SegmentRDT3>();
 		outdataqueue = new LinkedBlockingQueue<byte[]>();
 		state = RDT3SenderStates.WAITDATA0;
+		timeout = new AtomicBoolean(false);
 	}
 
 	public void rdt_send(byte[] data) {
@@ -68,15 +71,15 @@ public class TransportSenderRDT3 extends TransportSender implements ITransportPr
 
 			break;
 
-		case WAITACKNAK0:
+		case WAITACK0:
 
-			doWaitAckNak(0);
+			doWaitAck(0);
 
 			break;
 
-		case WAITACKNAK1:
+		case WAITACK1:
 
-			doWaitAckNak(1);
+			doWaitAck(1);
 
 			break;
 
@@ -92,6 +95,29 @@ public class TransportSenderRDT3 extends TransportSender implements ITransportPr
 		state = newstate;
 	}
 
+	private AtomicBoolean timeout;
+	private Timer timer;
+
+	private void stop_timer() {
+		timer.cancel();
+		timeout.set(false);
+	}
+	
+	public void start_timer() {
+		timeout.set(false);
+		timer = new Timer(); // CHECK: new timer at each timeout?
+		timer.schedule(new TimeOutTask(), 1000);
+	}
+	
+    class TimeOutTask extends TimerTask {
+    	
+        public void run() {
+            System.out.println("[Transport:Sender   ] TIMEOUT");
+            timer.cancel(); 
+            timeout.set(true);
+        }
+    }
+    
 	private void doWaitData(int seqnr) {
 
 		try {
@@ -102,21 +128,46 @@ public class TransportSenderRDT3 extends TransportSender implements ITransportPr
 
 				udt_send(new SegmentRDT3(data, seqnr));
 
+				start_timer();
+
 				if (seqnr == 0) {
-					changeState(RDT3SenderStates.WAITACKNAK0);
+					changeState(RDT3SenderStates.WAITACK0);
 				} else {
-					changeState(RDT3SenderStates.WAITACKNAK1);
+					changeState(RDT3SenderStates.WAITACK1);
 				}
 
 			}
 
 		} catch (InterruptedException ex) {
-			System.out.println("TransportSenderRDT2 thread " + ex.getMessage());
+			System.out.println("TransportSenderRDT3 thread " + ex.getMessage());
 			ex.printStackTrace();
 		}
+
+		try {
+
+			SegmentRDT3 acksegment = recvqueue.poll(2, TimeUnit.SECONDS);
+
+			if (acksegment != null) {
+				System.out.println("[Transport:Sender   ] DISCARD: " + acksegment.toString());
+			}
+
+		} catch (InterruptedException ex) {
+			System.out.println("TransportSenderRDT3 thread " + ex.getMessage());
+			ex.printStackTrace();
+		}
+
 	}
 
-	private void doWaitAckNak(int seqnr) {
+	private void doWaitAck(int seqnr) {
+
+		if (timeout.get()) {
+			
+			System.out.println("[Transport:Sender   ] RETRANSMIT ");
+			
+			udt_send(new SegmentRDT3(data, seqnr)); // retransmit
+
+			start_timer();
+		}
 
 		try {
 
@@ -124,35 +175,28 @@ public class TransportSenderRDT3 extends TransportSender implements ITransportPr
 
 			if (acksegment != null) { // something received via rdt_recv
 
-				SegmentType type = acksegment.getType();
+				if (acksegment.isCorrect() && (acksegment.getSeqnr() == seqnr)) {
 
-				if (!acksegment.isCorrect()) {
-
-					System.out.println("[Transport:Sender   ] CRP");
-					udt_send(new SegmentRDT3(data, seqnr)); // retransmit
-
-				} else if (type == SegmentType.NAK) {
-
-					System.out.println("[Transport:Sender   ] NAK");
-					udt_send(new SegmentRDT3(data, seqnr)); // retransmit
-
-				} else {
-
-					System.out.println("[Transport:Sender   ] ACK ");
+					stop_timer();
+					
+					System.out.println("[Transport:Sender   ] ACK");
 
 					if (seqnr == 0) {
 						changeState(RDT3SenderStates.WAITDATA1);
 					} else {
 						changeState(RDT3SenderStates.WAITDATA0);
-
 					}
 
 					data = null;
 				}
+
+				// if wrong seq nr or corrupt - just wait for timeout
 			}
 		} catch (InterruptedException ex) {
+
 			System.out.println("TransportSenderRDT2 thread " + ex.getMessage());
 			ex.printStackTrace();
 		}
+
 	}
 }

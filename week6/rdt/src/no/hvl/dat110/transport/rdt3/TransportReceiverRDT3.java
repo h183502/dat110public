@@ -66,7 +66,7 @@ public class TransportReceiverRDT3 extends TransportReceiver implements ITranspo
 				deliver_data(segment.getData());
 
 				// send an ack to the sender
-				udt_send(new SegmentRDT3(SegmentType.ACK,seqnr)); // CHECK
+				udt_send(new SegmentRDT3(SegmentType.ACK,seqnr)); 
 				
 				// change state waiting for data segmemt with other bit
 				if (seqnr == 0) {
@@ -75,13 +75,10 @@ public class TransportReceiverRDT3 extends TransportReceiver implements ITranspo
 					changeState(RDT3ReceiverStates.WAITING0);
 				}
 				
-			} else if ((segment.isCorrect() && (segment.getSeqnr() != seqnr))) {
-				// send an ack to the sender
-				udt_send(new SegmentRDT3(SegmentType.ACK,1-seqnr));
 			} else {
 				
-				udt_send(new SegmentRDT3(SegmentType.NAK,1-seqnr));
-				
+				// send an ack to the sender with the seqnr correctly received
+				udt_send(new SegmentRDT3(SegmentType.ACK,1-seqnr));	
 			}
 		}
 	}

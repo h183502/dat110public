@@ -20,6 +20,12 @@ public class TestTransport {
 	
 	ArrayList<byte[]> datasent,datarecv;
 	
+	private int RUNNINGTIME = 10000;
+	
+	public void setRunningTime(int msecs) {
+		this.RUNNINGTIME = msecs;
+	}
+	
 	public void setupNetwork(Adversary adversary) {
 		
 		this.network = new Network(adversary);
@@ -48,7 +54,7 @@ public class TestTransport {
 		
 		try {
 			
-			Thread.sleep(10000); // allow for reception of outstanding messages
+			Thread.sleep(RUNNINGTIME); // allow for reception of outstanding messages
 			
 			tsender.doStop();
 			

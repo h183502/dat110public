@@ -17,6 +17,8 @@ public class TestRDT3Adversary3 {
 
 		TestTransport ts = new TestTransport();
 
+		ts.setRunningTime(30000);
+		
 		ts.setupNetwork(new AdversaryRDT3());
 
 		ts.setupTransport(new TransportSenderRDT3(), new TransportReceiverRDT3());

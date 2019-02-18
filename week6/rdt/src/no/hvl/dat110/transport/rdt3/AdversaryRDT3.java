@@ -6,8 +6,8 @@ import no.hvl.dat110.transport.rdt2.SegmentRDT21;;
 
 public class AdversaryRDT3 extends Adversary {
 
-	private static double CORRUPTPB = 0.3;
-	private static double LOSSPB = 0.3;
+	private static double CORRUPTPB = 0.2;
+	private static double LOSSPB = 0.2;
 	
 	@Override
 	public Datagram process (Datagram datagram) {
