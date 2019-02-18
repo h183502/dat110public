@@ -41,7 +41,7 @@ public class TransportReceiverRDT21 extends TransportReceiver implements ITransp
 	
 	private void changeState(RDT21ReceiverStates newstate ) {
 		
-		System.out.println("Transport Receiver " + state + "->" + newstate);
+		System.out.println("[Transport:Receiver ] " + state + "->" + newstate);
 		state = newstate;
 	}
 
@@ -74,16 +74,18 @@ public class TransportReceiverRDT21 extends TransportReceiver implements ITransp
 				} else {
 					changeState(RDT21ReceiverStates.WAITING0);
 				}
+				
+			} else if ((segment.isCorrect() && (segment.getSeqnr() != seqnr))) {
+				// send an ack to the sender
+				udt_send(new SegmentRDT21(SegmentType.ACK));
 			} else {
 				
 				udt_send(new SegmentRDT21(SegmentType.NAK));
 				
 			}
-			
-			
 		}
-
 	}
+
 	
 	public void doProcess() {
 

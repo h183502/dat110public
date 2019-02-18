@@ -36,7 +36,7 @@ public class TransportSenderRDT21 extends TransportSender implements ITransportP
 
 	public void rdt_recv(Segment segment) {
 
-		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
+		System.out.println("[Transport:Sender   ] rdt_recv: " + segment.toString());
 
 		try {
 
@@ -86,7 +86,7 @@ public class TransportSenderRDT21 extends TransportSender implements ITransportP
 
 	private void changeState(RDT21SenderStates newstate) {
 
-		System.out.println("Transport Sender " + state + "->" + newstate);
+		System.out.println("[Transport:Sender   ] " + state + "->" + newstate);
 		state = newstate;
 	}
 
@@ -124,9 +124,14 @@ public class TransportSenderRDT21 extends TransportSender implements ITransportP
 
 				SegmentType type = acksegment.getType();
 
-				if ((type == SegmentType.NAK) || (!acksegment.isCorrect())) {
+				if (!acksegment.isCorrect()) {
 
-					System.out.println("[Transport:Sender   ] NAK/Corrupt ");
+					System.out.println("[Transport:Sender   ] CRP");
+					udt_send(new SegmentRDT21(data, seqnr)); // retransmit
+
+				} else if (type == SegmentType.NAK) {
+
+					System.out.println("[Transport:Sender   ] NAK");
 					udt_send(new SegmentRDT21(data, seqnr)); // retransmit
 
 				} else {
