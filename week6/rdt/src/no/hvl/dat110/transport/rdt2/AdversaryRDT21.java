@@ -12,13 +12,15 @@ public class AdversaryRDT21 extends Adversary {
 		
 		if (Math.random() < CORRUPTPB) {
 			
-			SegmentRDT2 segment = (SegmentRDT2) datagram.getSegment();
+			SegmentRDT2 segment = (SegmentRDT21) datagram.getSegment();
 			segment.setChecksum(((byte)1)); // Now also corrupt ack/naks
 			
+			assert (segment.isCorrect() == false);
 			System.out.println("-");
 			
 		} else {
 			System.out.println("+");
+			assert ((SegmentRDT21)datagram.getSegment()).isCorrect();
 		}
 		
 		return datagram;

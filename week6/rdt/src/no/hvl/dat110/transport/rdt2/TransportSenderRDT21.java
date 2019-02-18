@@ -124,7 +124,7 @@ public class TransportSenderRDT21 extends TransportSender implements ITransportP
 
 				SegmentType type = acksegment.getType();
 
-				if ((type == SegmentType.NAK) /* || (!acksegment.isCorrect())*/) {
+				if ((type == SegmentType.NAK) || (!acksegment.isCorrect())) {
 
 					System.out.println("[Transport:Sender   ] NAK/Corrupt ");
 					udt_send(new SegmentRDT21(data, seqnr)); // retransmit
