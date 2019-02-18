@@ -3,8 +3,9 @@ package no.hvl.dat110.transport.tests;
 import org.junit.Test;
 
 import no.hvl.dat110.transport.rdt2.AdversaryRDT21;
-import no.hvl.dat110.transport.rdt2.TransportReceiverRDT2;
-import no.hvl.dat110.transport.rdt2.TransportSenderRDT2;
+import no.hvl.dat110.transport.rdt2.AdversaryRDT2;
+import no.hvl.dat110.transport.rdt2.TransportReceiverRDT21;
+import no.hvl.dat110.transport.rdt2.TransportSenderRDT21;
 
 public class TestRDT21Adversary21 {
 
@@ -15,7 +16,7 @@ public class TestRDT21Adversary21 {
 
 		ts.setupNetwork(new AdversaryRDT21());
 
-		ts.setupTransport(new TransportSenderRDT2(), new TransportReceiverRDT2());
+		ts.setupTransport(new TransportSenderRDT21(), new TransportReceiverRDT21());
 
 		ts.runTest();
 
