@@ -1,25 +1,27 @@
-package no.hvl.dat110.transport.rdt2;
+package no.hvl.dat110.transport.rdt3;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import no.hvl.dat110.transport.*;
+import no.hvl.dat110.transport.rdt2.SegmentType;
 
-public class TransportSenderRDT21 extends TransportSender implements ITransportProtocolEntity {
 
-	public enum RDT21SenderStates {
+public class TransportSenderRDT3 extends TransportSender implements ITransportProtocolEntity {
+
+	public enum RDT3SenderStates {
 		WAITDATA0, WAITDATA1, WAITACKNAK0, WAITACKNAK1;
 	}
 
 	private LinkedBlockingQueue<byte[]> outdataqueue; // move to transport sender base class?
-	private LinkedBlockingQueue<SegmentRDT21> recvqueue;
-	private RDT21SenderStates state;
+	private LinkedBlockingQueue<SegmentRDT3> recvqueue;
+	private RDT3SenderStates state;
 
-	public TransportSenderRDT21() {
+	public TransportSenderRDT3() {
 		super("TransportSender");
-		recvqueue = new LinkedBlockingQueue<SegmentRDT21>();
+		recvqueue = new LinkedBlockingQueue<SegmentRDT3>();
 		outdataqueue = new LinkedBlockingQueue<byte[]>();
-		state = RDT21SenderStates.WAITDATA0;
+		state = RDT3SenderStates.WAITDATA0;
 	}
 
 	public void rdt_send(byte[] data) {
@@ -40,7 +42,7 @@ public class TransportSenderRDT21 extends TransportSender implements ITransportP
 
 		try {
 
-			recvqueue.put((SegmentRDT21) segment);
+			recvqueue.put((SegmentRDT3) segment);
 
 		} catch (InterruptedException ex) {
 			System.out.println("TransportSenderRDT2 thread " + ex.getMessage());
@@ -84,7 +86,7 @@ public class TransportSenderRDT21 extends TransportSender implements ITransportP
 
 	}
 
-	private void changeState(RDT21SenderStates newstate) {
+	private void changeState(RDT3SenderStates newstate) {
 
 		System.out.println("[Transport:Sender   ] " + state + "->" + newstate);
 		state = newstate;
@@ -98,12 +100,12 @@ public class TransportSenderRDT21 extends TransportSender implements ITransportP
 
 			if (data != null) { // something to send
 
-				udt_send(new SegmentRDT21(data, seqnr));
+				udt_send(new SegmentRDT3(data, seqnr));
 
 				if (seqnr == 0) {
-					changeState(RDT21SenderStates.WAITACKNAK0);
+					changeState(RDT3SenderStates.WAITACKNAK0);
 				} else {
-					changeState(RDT21SenderStates.WAITACKNAK1);
+					changeState(RDT3SenderStates.WAITACKNAK1);
 				}
 
 			}
@@ -118,7 +120,7 @@ public class TransportSenderRDT21 extends TransportSender implements ITransportP
 
 		try {
 
-			SegmentRDT21 acksegment = recvqueue.poll(2, TimeUnit.SECONDS);
+			SegmentRDT3 acksegment = recvqueue.poll(2, TimeUnit.SECONDS);
 
 			if (acksegment != null) { // something received via rdt_recv
 
@@ -127,21 +129,21 @@ public class TransportSenderRDT21 extends TransportSender implements ITransportP
 				if (!acksegment.isCorrect()) {
 
 					System.out.println("[Transport:Sender   ] CRP");
-					udt_send(new SegmentRDT21(data, seqnr)); // retransmit
+					udt_send(new SegmentRDT3(data, seqnr)); // retransmit
 
 				} else if (type == SegmentType.NAK) {
 
 					System.out.println("[Transport:Sender   ] NAK");
-					udt_send(new SegmentRDT21(data, seqnr)); // retransmit
+					udt_send(new SegmentRDT3(data, seqnr)); // retransmit
 
 				} else {
 
 					System.out.println("[Transport:Sender   ] ACK ");
 
 					if (seqnr == 0) {
-						changeState(RDT21SenderStates.WAITDATA1);
+						changeState(RDT3SenderStates.WAITDATA1);
 					} else {
-						changeState(RDT21SenderStates.WAITDATA0);
+						changeState(RDT3SenderStates.WAITDATA0);
 
 					}
 

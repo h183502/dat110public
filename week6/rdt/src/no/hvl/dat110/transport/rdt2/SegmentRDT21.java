@@ -2,7 +2,7 @@ package no.hvl.dat110.transport.rdt2;
 
 public class SegmentRDT21 extends SegmentRDT2 {
 
-	private int seqnr;
+	protected int seqnr;
 	
 	public SegmentRDT21() {
 		

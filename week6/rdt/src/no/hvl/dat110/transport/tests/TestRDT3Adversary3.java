@@ -7,6 +7,8 @@ import no.hvl.dat110.transport.rdt2.AdversaryRDT2;
 import no.hvl.dat110.transport.rdt3.AdversaryRDT3;
 import no.hvl.dat110.transport.rdt2.TransportReceiverRDT21;
 import no.hvl.dat110.transport.rdt2.TransportSenderRDT21;
+import no.hvl.dat110.transport.rdt3.TransportSenderRDT3;
+import no.hvl.dat110.transport.rdt3.TransportReceiverRDT3;
 
 public class TestRDT3Adversary3 {
 
@@ -17,7 +19,7 @@ public class TestRDT3Adversary3 {
 
 		ts.setupNetwork(new AdversaryRDT3());
 
-		ts.setupTransport(new TransportSenderRDT21(), new TransportReceiverRDT21());
+		ts.setupTransport(new TransportSenderRDT3(), new TransportReceiverRDT3());
 
 		ts.runTest();
 

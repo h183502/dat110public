@@ -1,0 +1,108 @@
+package no.hvl.dat110.transport.rdt3;
+
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+import no.hvl.dat110.transport.*;
+import no.hvl.dat110.transport.rdt2.SegmentType;
+
+public class TransportReceiverRDT3 extends TransportReceiver implements ITransportProtocolEntity {
+
+	public enum RDT3ReceiverStates {
+		WAITING0, WAITING1;
+	}
+	
+	private RDT3ReceiverStates state;
+	
+	private LinkedBlockingQueue<SegmentRDT3> insegqueue;
+
+	public TransportReceiverRDT3() {
+		super("TransportReceiver");
+		state = RDT3ReceiverStates.WAITING0;
+		insegqueue = new LinkedBlockingQueue<SegmentRDT3>();
+	}
+	
+	// network service will call this method when segments arrive
+	public void rdt_recv(Segment segment) {
+
+		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
+
+		try {
+			
+			insegqueue.put((SegmentRDT3)segment);
+			
+		} catch (InterruptedException ex) {
+
+			System.out.println("Transport receiver  " + ex.getMessage());
+			ex.printStackTrace();
+		}
+
+	}
+	
+	private void changeState(RDT3ReceiverStates newstate ) {
+		
+		System.out.println("[Transport:Receiver ] " + state + "->" + newstate);
+		state = newstate;
+	}
+
+	private void doWaiting(int seqnr) {
+		
+		SegmentRDT3 segment = null;
+		
+		try {
+	
+			segment = insegqueue.poll(2, TimeUnit.SECONDS);
+
+		} catch (InterruptedException ex) {
+			System.out.println("TransportReceiver RDT3 - doProcess " + ex.getMessage());
+			ex.printStackTrace();
+		}
+		
+		if (segment != null) {
+
+			if (segment.isCorrect() && (segment.getSeqnr() == seqnr)) {
+
+				// deliver data to the transport layer
+				deliver_data(segment.getData());
+
+				// send an ack to the sender
+				udt_send(new SegmentRDT3(SegmentType.ACK,seqnr)); // CHECK
+				
+				// change state waiting for data segmemt with other bit
+				if (seqnr == 0) {
+					changeState(RDT3ReceiverStates.WAITING1);
+				} else {
+					changeState(RDT3ReceiverStates.WAITING0);
+				}
+				
+			} else if ((segment.isCorrect() && (segment.getSeqnr() != seqnr))) {
+				// send an ack to the sender
+				udt_send(new SegmentRDT3(SegmentType.ACK,1-seqnr));
+			} else {
+				
+				udt_send(new SegmentRDT3(SegmentType.NAK,1-seqnr));
+				
+			}
+		}
+	}
+
+	
+	public void doProcess() {
+
+		switch (state) {
+
+		case WAITING0:
+
+			doWaiting(0);
+			break;
+			
+		case WAITING1:
+			
+			doWaiting(1);
+			break;
+			
+		default:
+			break;
+		}
+	}
+}
