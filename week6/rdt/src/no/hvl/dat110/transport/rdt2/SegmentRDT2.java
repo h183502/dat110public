@@ -20,7 +20,7 @@ public class SegmentRDT2 extends Segment {
 	public SegmentRDT2(SegmentType type) {
 		super();
 		this.type = type;
-		this.checksum = 0; // 0 checksum on ACK and NAK
+		this.checksum = 0; // 0 is the correct checksum on ACK and NAK
 	}
 
 	@Override
