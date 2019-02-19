@@ -10,9 +10,9 @@ public class TransportReceiverRDT2 extends TransportReceiver implements ITranspo
 	public enum RDT2ReceiverStates {
 		WAITING;
 	}
-	
+
 	private RDT2ReceiverStates state;
-	
+
 	private LinkedBlockingQueue<SegmentRDT2> insegqueue;
 
 	public TransportReceiverRDT2() {
@@ -20,16 +20,16 @@ public class TransportReceiverRDT2 extends TransportReceiver implements ITranspo
 		state = RDT2ReceiverStates.WAITING;
 		insegqueue = new LinkedBlockingQueue<SegmentRDT2>();
 	}
-	
+
 	// network service will call this method when segments arrive
 	public void rdt_recv(Segment segment) {
 
 		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
 
 		try {
-			
-			insegqueue.put((SegmentRDT2)segment);
-			
+
+			insegqueue.put((SegmentRDT2) segment);
+
 		} catch (InterruptedException ex) {
 
 			System.out.println("Transport receiver  " + ex.getMessage());
@@ -37,41 +37,45 @@ public class TransportReceiverRDT2 extends TransportReceiver implements ITranspo
 		}
 
 	}
-	
-	public void doProcess() {
+
+	public void doWaiting() {
 
 		SegmentRDT2 segment = null;
+
+		try {
+
+			segment = insegqueue.poll(2, TimeUnit.SECONDS);
+
+		} catch (InterruptedException ex) {
+			System.out.println("TransportReceiver RDT2 - doProcess " + ex.getMessage());
+			ex.printStackTrace();
+		}
+
+		if (segment != null) {
+
+			SegmentType acktype = SegmentType.NAK;
+
+			if (segment.isCorrect()) {
+
+				// deliver data to the transport layer
+				deliver_data(segment.getData());
+
+				// send an ack to the sender
+				acktype = SegmentType.ACK;
+
+			}
+
+			udt_send(new SegmentRDT2(acktype));
+		}
+
+	}
+
+	public void doProcess() {
 
 		switch (state) {
 
 		case WAITING:
-
-			try {
-
-				segment = insegqueue.poll(2, TimeUnit.SECONDS);
-
-			} catch (InterruptedException ex) {
-				System.out.println("TransportReceiver RDT2 - doProcess " + ex.getMessage());
-				ex.printStackTrace();
-			}
-			
-			if (segment != null) {
-
-				SegmentType acktype = SegmentType.NAK;
-
-				if (segment.isCorrect()) {
-
-					// deliver data to the transport layer
-					deliver_data(segment.getData());
-
-					// send an ack to the sender
-					acktype = SegmentType.ACK;
-					
-				} 
-				
-				udt_send(new SegmentRDT2(acktype));
-			}
-
+			doWaiting();
 			break;
 		default:
 			break;

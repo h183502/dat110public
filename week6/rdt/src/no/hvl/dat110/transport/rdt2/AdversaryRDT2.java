@@ -14,7 +14,7 @@ public class AdversaryRDT2 extends Adversary {
 		if (Math.random() < CORRUPTPB) {
 			
 			SegmentRDT2 segment = (SegmentRDT2) datagram.getSegment();
-			segment.setChecksum(((byte)0));
+			segment.setChecksum(((byte)0)); // 0 is correct checksum on ack/nak
 			
 			System.out.println("*");
 			
