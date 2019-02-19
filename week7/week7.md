@@ -39,9 +39,11 @@ This package contains five classes responsible specific chord protocols:
 - Hash: implements hash function method and converts the hash value to big integer. Also, it implements a custom modulo 2^mbit function for testing purposes.
 - Util: contains various utility methods for obtaining registry or performing conversion.
 
-##### Task 1: Run the Chord program
+##### Task 1: Run the Chord program alone
 1. Specify your IP address in the StaticTracker class
 2. Run the ChordNodeContainer class
+3. Specify a random file name in the NodeClientTester and run it
+4. Check the result and see that the keyid of the file is mapped to your node
 
 If you want the program to run forever, comment out the leave ring section at the bottom of ChordNodeContainer. Or increase the sleep time to make it run longer.
 
