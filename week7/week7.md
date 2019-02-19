@@ -36,7 +36,7 @@ This package contains five classes responsible specific chord protocols:
 - StaticTracker: class that defines the ip addresses of possible active nodes in a ring. In addition, the port for the registry is specified in this class.
 
 ##### no.hvl.dat110.util
-- Hash: implements hash function method and converts the hash value to big integer. Also, it implements a custom modulo 2^mbit function for testing purposes.
+- Hash: implements hash function method and converts the hash value to big integer. Also, it implements a custom modulo 2^mbit function for testing purposes (where mbit = 4).
 - Util: contains various utility methods for obtaining registry or performing conversion.
 
 ##### Task 1: Run the Chord program alone
