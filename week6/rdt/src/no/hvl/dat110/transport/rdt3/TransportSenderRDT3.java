@@ -81,6 +81,7 @@ public class TransportSenderRDT3 extends TransportSender implements ITransportPr
 		state = newstate;
 	}
 
+	// TODO: consider moving retransmission timer into seperate file
 	private boolean timeout;
 	private Timer timer;
 
