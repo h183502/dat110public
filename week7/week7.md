@@ -65,7 +65,10 @@ What important improvements can you make to the system?
 
 #### Exercise 2 - Leave Ring Implementation
 A node can leave the ring by shutting down its client. You will implement a graceful departure behaviour from the ring. This behaviour should be implemented in the Node.leaveRing() method and should do the following.
-1. When a node leaves, it should notify its successor and hands over all its keys to the successor. At this point, the successor must set its predecessor to the predecessor of the leaving node.
-2. It should also inform its predecessor so that it can update its references. At this point, the predecessor must set its successor pointer to the successor of the node.
-3. Simulate the behaviour and check your result.
+1. When a node n leaves, it should notify its successor s and hand over all its keys to s. At this point, s must set its predecessor ps to the predecessor pn of n.
+2. n should also inform its predecessor pn so that it can update its references. At this point, pn must set its successor pointer to s.
+In both cases, we assume that the node sends its predecessor to s, and the last node in its successor list to p.
+
+
+Simulate the behaviour and check your result.
 
