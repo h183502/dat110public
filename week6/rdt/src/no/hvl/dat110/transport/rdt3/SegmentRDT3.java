@@ -42,7 +42,9 @@ public class SegmentRDT3 extends SegmentRDT21 {
 		
 		String str = super.toString();
 		
-		str = str + "[" + seqnr + "]";
+		if (type == SegmentType.ACK) {
+			str = str + "[" + seqnr + "]";
+		}
 		
 		return str;
 	}
