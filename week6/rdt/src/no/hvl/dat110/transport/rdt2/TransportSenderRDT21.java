@@ -11,27 +11,13 @@ public class TransportSenderRDT21 extends TransportSender implements ITransportP
 		WAITDATA0, WAITDATA1, WAITACKNAK0, WAITACKNAK1;
 	}
 
-	private LinkedBlockingQueue<byte[]> outdataqueue; // move to transport sender base class?
 	private LinkedBlockingQueue<SegmentRDT21> recvqueue;
 	private RDT21SenderStates state;
 
 	public TransportSenderRDT21() {
 		super("TransportSender");
 		recvqueue = new LinkedBlockingQueue<SegmentRDT21>();
-		outdataqueue = new LinkedBlockingQueue<byte[]>();
 		state = RDT21SenderStates.WAITDATA0;
-	}
-
-	public void rdt_send(byte[] data) {
-
-		try {
-
-			outdataqueue.put(data);
-
-		} catch (InterruptedException ex) {
-			System.out.println("TransportSender thread " + ex.getMessage());
-			ex.printStackTrace();
-		}
 	}
 
 	public void rdt_recv(Segment segment) {

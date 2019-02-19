@@ -14,23 +14,21 @@ public class AdversaryRDT3 extends Adversary {
 		
 		double rnd = Math.random();
 		
-		if (rnd <= CORRUPTPB) {
+		if (rnd <= CORRUPTPB) { // transmission error
 			
 			SegmentRDT21 segment = (SegmentRDT21) datagram.getSegment();
-			segment.setChecksum(((byte)1)); // Now also corrupt ack/naks
+			segment.setChecksum(((byte)1)); 
 			
-			assert (segment.isCorrect() == false);
 			System.out.println("*");
 			
-		} else if (rnd <= CORRUPTPB + LOSSPB ) {
+		} else if (rnd <= CORRUPTPB + LOSSPB ) { // loss
 		
-			datagram = null; // loss
+			datagram = null; 
 			System.out.println("-");
 			
-		} else {
+		} else { // success
 			
 			System.out.println("+");
-			assert ((SegmentRDT21)datagram.getSegment()).isCorrect();
 			
 		}
 		

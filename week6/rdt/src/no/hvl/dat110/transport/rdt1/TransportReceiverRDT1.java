@@ -7,27 +7,8 @@ import java.util.concurrent.TimeUnit;
 
 public class TransportReceiverRDT1 extends TransportReceiver implements ITransportProtocolEntity {
 
-	private LinkedBlockingQueue<Segment> insegqueue;
-
 	public TransportReceiverRDT1() {
 		super("TransportReceiver");
-		insegqueue = new LinkedBlockingQueue<Segment>();
-		
-	}
-	
-	// network service will call this method when segments arrive
-	public void rdt_recv(Segment segment) {
-
-		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
-
-		try {
-			insegqueue.put(segment);
-		} catch (InterruptedException ex) {
-
-			System.out.println("Transport receiver  " + ex.getMessage());
-			ex.printStackTrace();
-		}
-
 	}
 
 	public void doProcess() {

@@ -7,25 +7,12 @@ import no.hvl.dat110.transport.*;
 
 public class TransportSenderRDT1 extends TransportSender implements ITransportProtocolEntity {
 
-	private LinkedBlockingQueue<byte[]> outdataqueue;
+	
 
 	public TransportSenderRDT1() {
 		super("TransportSender");
-		outdataqueue = new LinkedBlockingQueue<byte[]>();
 	}
 		
-	public void rdt_send(byte[] data) {
-
-		try {
-			
-			outdataqueue.put(data);
-			
-		} catch (InterruptedException ex) {
-			System.out.println("TransportSender thread " + ex.getMessage());
-			ex.printStackTrace();
-		}
-	}
-
 	public void rdt_recv(Segment segment) {
 
 		// do not do anything in the basic transport sender entity

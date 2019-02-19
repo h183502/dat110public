@@ -15,28 +15,14 @@ public class TransportSenderRDT3 extends TransportSender implements ITransportPr
 		WAITDATA0, WAITDATA1, WAITACK0, WAITACK1;
 	}
 
-	private LinkedBlockingQueue<byte[]> outdataqueue; // move to transport sender base class?
 	private LinkedBlockingQueue<SegmentRDT3> recvqueue;
 	private RDT3SenderStates state;
 
 	public TransportSenderRDT3() {
 		super("TransportSender");
 		recvqueue = new LinkedBlockingQueue<SegmentRDT3>();
-		outdataqueue = new LinkedBlockingQueue<byte[]>();
 		state = RDT3SenderStates.WAITDATA0;
 		timeout = new AtomicBoolean(false);
-	}
-
-	public void rdt_send(byte[] data) {
-
-		try {
-
-			outdataqueue.put(data);
-
-		} catch (InterruptedException ex) {
-			System.out.println("TransportSender thread " + ex.getMessage());
-			ex.printStackTrace();
-		}
 	}
 
 	public void rdt_recv(Segment segment) {
@@ -105,7 +91,7 @@ public class TransportSenderRDT3 extends TransportSender implements ITransportPr
 	
 	public void start_timer() {
 		timeout.set(false);
-		timer = new Timer(); // CHECK: new timer at each timeout?
+		timer = new Timer(); 
 		timer.schedule(new TimeOutTask(), 1000);
 	}
 	

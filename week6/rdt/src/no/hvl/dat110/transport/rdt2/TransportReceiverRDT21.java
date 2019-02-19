@@ -1,10 +1,8 @@
 package no.hvl.dat110.transport.rdt2;
 
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import no.hvl.dat110.transport.*;
-import no.hvl.dat110.transport.rdt2.TransportSenderRDT21.RDT21SenderStates;
 
 public class TransportReceiverRDT21 extends TransportReceiver implements ITransportProtocolEntity {
 
@@ -13,32 +11,12 @@ public class TransportReceiverRDT21 extends TransportReceiver implements ITransp
 	}
 	
 	private RDT21ReceiverStates state;
-	
-	private LinkedBlockingQueue<SegmentRDT21> insegqueue;
 
 	public TransportReceiverRDT21() {
 		super("TransportReceiver");
 		state = RDT21ReceiverStates.WAITING0;
-		insegqueue = new LinkedBlockingQueue<SegmentRDT21>();
 	}
-	
-	// network service will call this method when segments arrive
-	public void rdt_recv(Segment segment) {
-
-		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
-
-		try {
-			
-			insegqueue.put((SegmentRDT21)segment);
-			
-		} catch (InterruptedException ex) {
-
-			System.out.println("Transport receiver  " + ex.getMessage());
-			ex.printStackTrace();
-		}
-
-	}
-	
+		
 	private void changeState(RDT21ReceiverStates newstate ) {
 		
 		System.out.println("[Transport:Receiver ] " + state + "->" + newstate);
@@ -51,7 +29,7 @@ public class TransportReceiverRDT21 extends TransportReceiver implements ITransp
 		
 		try {
 	
-			segment = insegqueue.poll(2, TimeUnit.SECONDS);
+			segment = (SegmentRDT21)insegqueue.poll(2, TimeUnit.SECONDS);
 
 		} catch (InterruptedException ex) {
 			System.out.println("TransportReceiver RDT2 - doProcess " + ex.getMessage());
