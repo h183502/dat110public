@@ -48,7 +48,7 @@ public interface ChordNodeInterface extends Remote {
 	
 	public ChordNodeInterface findSuccessor(BigInteger keyID) throws RemoteException;
 	
-	public void leaveRing(ChordNodeInterface node) throws RemoteException;
+	public void leaveRing() throws RemoteException;
 	
 	public void notifySuccessor(ChordNodeInterface node) throws RemoteException;
 	

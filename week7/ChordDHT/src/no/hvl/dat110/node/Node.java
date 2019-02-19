@@ -117,7 +117,7 @@ public class Node extends UnicastRemoteObject implements ChordNodeInterface {
 		// ask this node to find the successor of id
 		ChordNodeInterface succ = this.getSuccessor();			// last known successor of this node
 			
-		ChordNodeInterface succstub = registryHandle(succ); 	// issue a remote call
+		ChordNodeInterface succstub = Util.registryHandle(succ); 	// issue a remote call and see if this node is still active
 			
 		if(succstub != null) {
 			
@@ -196,29 +196,11 @@ public class Node extends UnicastRemoteObject implements ChordNodeInterface {
 	}
 
 	@Override
-	public void leaveRing(ChordNodeInterface node) throws RemoteException {
+	public void leaveRing() throws RemoteException {
 		// TODO
 		// transfer keys to successor before departure
 		// update the successor and predecessor accordingly
 		System.exit(0);				
-	}
-	
-	private ChordNodeInterface registryHandle(ChordNodeInterface node) {
-		ChordNodeInterface nodestub = null;
-		Registry registry = null;
-		try {
-			registry = Util.locateRegistry(node.getNodeIP());		
-			
-			if(registry == null) {
-				return null;
-			}
-			
-			nodestub = (ChordNodeInterface) registry.lookup(node.getNodeID().toString());	// remote stub
-		} catch (NotBoundException | RemoteException e) {
-			return null;		// successor has left the ring...or can't connect
-		}
-		
-		return nodestub;
 	}
 
 }

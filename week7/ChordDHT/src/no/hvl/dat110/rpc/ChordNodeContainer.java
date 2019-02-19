@@ -93,6 +93,15 @@ public class ChordNodeContainer {
 		CheckPredecessor checkpred = new CheckPredecessor((Node) chordnode);
 		checkpred.start();
 		
+		// leave the ring after 5secs
+		try {
+			Thread.sleep(5000);
+			chordnode.leaveRing();
+		}catch(Exception e) {
+			
+		}
+		
+		
 	}
 
 }

@@ -7,6 +7,7 @@ package no.hvl.dat110.util;
  */
 
 import java.math.BigInteger;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -82,6 +83,24 @@ public class Util {
 		
 		return registry;
 
+	}
+	
+	public static ChordNodeInterface registryHandle(ChordNodeInterface node) {
+		ChordNodeInterface nodestub = null;
+		Registry registry = null;
+		try {
+			registry = Util.locateRegistry(node.getNodeIP());		
+			
+			if(registry == null) {
+				return null;
+			}
+			
+			nodestub = (ChordNodeInterface) registry.lookup(node.getNodeID().toString());	// remote stub
+		} catch (NotBoundException | RemoteException e) {
+			return null;		// successor has left the ring...or can't connect
+		}
+		
+		return nodestub;
 	}
 
 }

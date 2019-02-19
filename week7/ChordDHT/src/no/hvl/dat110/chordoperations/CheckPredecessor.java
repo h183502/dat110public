@@ -67,10 +67,6 @@ public class CheckPredecessor extends Thread {
 			node.setPredecessor(null);		// if error occurs - predecessor can't be reached.. set the reference to null
 			//e.printStackTrace();
 		}
-		String predip = null;
-		try{
-			predip = node.getPredecessor().getNodeIP();
-		}catch(Exception e) {}
-		//System.out.println("predecessor for Node: predecessor("+node.getNodeIP()+") = "+predip);
+
 	}
 }
