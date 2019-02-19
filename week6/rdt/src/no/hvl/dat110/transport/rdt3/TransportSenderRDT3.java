@@ -22,7 +22,7 @@ public class TransportSenderRDT3 extends TransportSender implements ITransportPr
 		super("TransportSender");
 		recvqueue = new LinkedBlockingQueue<SegmentRDT3>();
 		state = RDT3SenderStates.WAITDATA0;
-		timeout = new AtomicBoolean(false);
+		timeout = false;
 	}
 
 	public void rdt_recv(Segment segment) {
@@ -81,18 +81,18 @@ public class TransportSenderRDT3 extends TransportSender implements ITransportPr
 		state = newstate;
 	}
 
-	private AtomicBoolean timeout;
+	private boolean timeout;
 	private Timer timer;
 
 	private void stop_timer() {
 		timer.cancel();
-		timeout.set(false);
+		timeout = false;
 	}
 	
 	public void start_timer() {
-		timeout.set(false);
 		timer = new Timer(); 
 		timer.schedule(new TimeOutTask(), 1000);
+		timeout = false;
 	}
 	
     class TimeOutTask extends TimerTask {
@@ -100,7 +100,7 @@ public class TransportSenderRDT3 extends TransportSender implements ITransportPr
         public void run() {
             System.out.println("[Transport:Sender   ] TIMEOUT");
             timer.cancel(); 
-            timeout.set(true);
+            timeout = true;
         }
     }
     
@@ -146,7 +146,7 @@ public class TransportSenderRDT3 extends TransportSender implements ITransportPr
 
 	private void doWaitAck(int seqnr) {
 
-		if (timeout.get()) {
+		if (timeout) {
 			
 			System.out.println("[Transport:Sender   ] RETRANSMIT ");
 			
