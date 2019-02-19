@@ -27,4 +27,6 @@ public abstract class TransportSender extends Stopable implements ITransportProt
 		System.out.println("[Transport:Sender   ] udt_send: " + segment.toString());
 		ns.udt_send(new Datagram(segment));
 	}
+	
+	// TODO: consider adding the indataqueue into the base class
 }

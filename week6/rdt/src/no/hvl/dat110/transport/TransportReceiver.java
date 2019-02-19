@@ -38,4 +38,6 @@ public abstract class TransportReceiver extends Stopable implements ITransportPr
 		System.out.println("[Transport:Receiver ] udt_send: " + segment.toString());
 		ns.udt_send(new Datagram(segment));
 	}
+	
+	// TODO: consider adding the recv segment queue into the base class
 }
