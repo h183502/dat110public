@@ -3,8 +3,8 @@ package no.hvl.dat110.transport.tests;
 import org.junit.Test;
 
 import no.hvl.dat110.network.Adversary;
-import no.hvl.dat110.transport.TransportReceiver;
-import no.hvl.dat110.transport.TransportSender;
+import no.hvl.dat110.transport.rdt1.TransportReceiverRDT1;
+import no.hvl.dat110.transport.rdt1.TransportSenderRDT1;
 
 public class TestRDT1 {
 
@@ -15,7 +15,8 @@ public class TestRDT1 {
 		
 		ts.setupNetwork(new Adversary());
 		
-		ts.setupTransport(new TransportSender(), new TransportReceiver());
+		ts.setupTransport(new TransportSenderRDT1(), 
+				new TransportReceiverRDT1());
 		
 		ts.runTest();
 				

@@ -1,7 +1,6 @@
 package no.hvl.dat110.network;
 
 import no.hvl.dat110.transport.*;
-import no.hvl.dat110.application.Stopable;
 
 public class NetworkService extends Stopable {
 
@@ -23,6 +22,7 @@ public class NetworkService extends Stopable {
 		chanout.send(new Datagram(datagram.getSegment().clone()));
 	}
 	
+	// TODO: better to expand this methods into the doProcess
 	public void rdt_recv(Datagram datagram) {
 		
 		if (transport != null) {

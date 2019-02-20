@@ -2,68 +2,59 @@ package no.hvl.dat110.transport.rdt2;
 
 import java.util.concurrent.TimeUnit;
 
-import no.hvl.dat110.network.NetworkService;
-import no.hvl.dat110.network.Datagram;
-import no.hvl.dat110.transport.Segment;
-import no.hvl.dat110.transport.SegmentType;
-import no.hvl.dat110.transport.TransportReceiver;
+import no.hvl.dat110.transport.*;
 
-public class TransportReceiverRDT2 extends TransportReceiver {
+public class TransportReceiverRDT2 extends TransportReceiver implements ITransportProtocolEntity {
+
+	public enum RDT2ReceiverStates {
+		WAITING;
+	}
 
 	private RDT2ReceiverStates state;
 
 	public TransportReceiverRDT2() {
-		super();
-		state = RDT2ReceiverStates.WAITING;
-	}
-	
-	public TransportReceiverRDT2(NetworkService ns) {
-		super(ns);
+		super("TransportReceiver");
 		state = RDT2ReceiverStates.WAITING;
 	}
 
-	@Override
-	public void udt_send(Segment segment) {
-		ns.udt_send(new Datagram(segment));
+	public void doWaiting() {
+
+		SegmentRDT2 segment = null;
+
+		try {
+
+			segment = (SegmentRDT2)insegqueue.poll(2, TimeUnit.SECONDS);
+
+		} catch (InterruptedException ex) {
+			System.out.println("TransportReceiver RDT2 - doProcess " + ex.getMessage());
+			ex.printStackTrace();
+		}
+
+		if (segment != null) {
+
+			SegmentType acktype = SegmentType.NAK;
+
+			if (segment.isCorrect()) {
+
+				// deliver data to the transport layer
+				deliver_data(segment.getData());
+
+				// send an ack to the sender
+				acktype = SegmentType.ACK;
+
+			}
+
+			udt_send(new SegmentRDT2(acktype));
+		}
+
 	}
 
 	public void doProcess() {
 
-		Segment segment = null;
-
 		switch (state) {
 
 		case WAITING:
-
-			try {
-
-				segment = inqueue.poll(2, TimeUnit.SECONDS);
-
-			} catch (InterruptedException ex) {
-				System.out.println("TransportReceiver RDT2 - doProcess " + ex.getMessage());
-				ex.printStackTrace();
-			}
-			
-			if (segment != null) {
-
-				Segment acksegment;
-
-				if (segment.isCorrect()) {
-
-					// deliver data to the transport layer
-					deliver_data(segment.getData());
-
-					// send an ack to the sender
-					acksegment = new Segment(SegmentType.ACK);
-					
-				} else {
-					// send an ack to the sender
-					acksegment = new Segment(SegmentType.NAK);
-				}
-
-				udt_send(acksegment);
-			}
-
+			doWaiting();
 			break;
 		default:
 			break;

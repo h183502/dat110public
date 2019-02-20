@@ -1,6 +1,6 @@
 package no.hvl.dat110.transport.tests;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +19,12 @@ public class TestTransport {
 	private TransportReceiver treceiver;
 	
 	ArrayList<byte[]> datasent,datarecv;
+	
+	private int RUNNINGTIME = 10000;
+	
+	public void setRunningTime(int msecs) {
+		this.RUNNINGTIME = msecs;
+	}
 	
 	public void setupNetwork(Adversary adversary) {
 		
@@ -48,7 +54,7 @@ public class TestTransport {
 		
 		try {
 			
-			Thread.sleep(10000); // allow for reception of outstanding messages
+			Thread.sleep(RUNNINGTIME); // allow for reception of outstanding messages
 			
 			tsender.doStop();
 			
@@ -88,6 +94,8 @@ public class TestTransport {
 	}
 	
 	public void assertRDT() {
+		
+		assertEquals(datasent.size(),datarecv.size());
 		
 		for (int i = 0; i<datasent.size();i++) {
 			assertTrue(equalData(datasent.get(i),datarecv.get(i)));

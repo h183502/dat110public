@@ -1,27 +1,18 @@
 package no.hvl.dat110.transport;
 
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
-import no.hvl.dat110.network.NetworkService;
 import no.hvl.dat110.network.Datagram;
-import no.hvl.dat110.application.Stopable;
+import no.hvl.dat110.network.NetworkService;
 
-public class TransportSender extends Stopable implements ITransportProtocolEntity {
+public abstract class TransportSender extends Stopable implements ITransportProtocolEntity {
 
-	protected NetworkService ns;
-
-	protected LinkedBlockingQueue<Segment> outqueue;
-
-	public TransportSender() {
-		super("TransportSender");
-		outqueue = new LinkedBlockingQueue<Segment>();
-	}
+	protected LinkedBlockingQueue<byte[]> outdataqueue;
+	private NetworkService ns;
 	
-	public TransportSender(NetworkService ns) {
-		this();
-		this.ns = ns;
-		ns.register(this);
+	public TransportSender(String name) {
+		super(name);
+		outdataqueue = new LinkedBlockingQueue<byte[]>();
 	}
 
 	public void register(NetworkService ns) {
@@ -32,42 +23,25 @@ public class TransportSender extends Stopable implements ITransportProtocolEntit
 	public final void rdt_send(byte[] data) {
 
 		try {
-			outqueue.put(new Segment(data));
+			
+			outdataqueue.put(data);
+			
 		} catch (InterruptedException ex) {
 			System.out.println("TransportSender thread " + ex.getMessage());
 			ex.printStackTrace();
 		}
 	}
-
-	public void rdt_recv(Segment segment) {
-
-		// do not do anything in the basic transport sender entity
-	}
-
+	
 	public final void deliver_data(byte[] data) {
 
-		// should never used in the current setting
+		// should never be called in the current setting
 		throw new RuntimeException("deliver_data called in transport sender");
 	}
 	
+	// udt_send should always just send the segment via the underlying network service
 	public final void udt_send(Segment segment) {
+		System.out.println("[Transport:Sender   ] udt_send: " + segment.toString());
 		ns.udt_send(new Datagram(segment));
 	}
-	
-	public void doProcess() {
 
-		try {
-			Segment segment = outqueue.poll(2, TimeUnit.SECONDS);
-
-			if (segment != null) {
-				System.out.println("[Transport:Sender   ] udt_send: " + segment.toString());
-				udt_send(segment);
-			}
-
-		} catch (InterruptedException ex) {
-			System.out.println("Transport sender thread " + ex.getMessage());
-			ex.printStackTrace();
-		}
-
-	}
 }

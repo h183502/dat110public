@@ -2,7 +2,8 @@ package no.hvl.dat110.network;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import no.hvl.dat110.application.Stopable;
+
+import no.hvl.dat110.transport.Stopable;
 
 public class Channel extends Stopable {
 
@@ -22,7 +23,12 @@ public class Channel extends Stopable {
 			
 			System.out.print("[Network:"+super.name+ "] transmit: " + datagram.toString());
 			
-			datagramqueue.put(observer.process(datagram));
+			datagram = observer.process(datagram);
+			
+			if (datagram != null) {
+				datagramqueue.put(datagram);
+			}
+		
 			
 		} catch (InterruptedException ex) {
 

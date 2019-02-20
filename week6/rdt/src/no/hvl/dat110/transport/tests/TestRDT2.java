@@ -1,9 +1,5 @@
 package no.hvl.dat110.transport.tests;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
 import org.junit.Test;
 
 import no.hvl.dat110.network.Adversary;
@@ -14,6 +10,7 @@ public class TestRDT2 {
 
 	@Test
 	public void test() {
+		
 		TestTransport ts = new TestTransport();
 
 		ts.setupNetwork(new Adversary());

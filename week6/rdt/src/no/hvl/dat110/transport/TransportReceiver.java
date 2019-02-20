@@ -1,41 +1,49 @@
 package no.hvl.dat110.transport;
 
-import no.hvl.dat110.network.NetworkService;
-import no.hvl.dat110.application.Stopable;
-
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
-import no.hvl.dat110.application.*;
+import no.hvl.dat110.application.ReceiverProcess;
+import no.hvl.dat110.network.Datagram;
+import no.hvl.dat110.network.NetworkService;
 
-public class TransportReceiver extends Stopable implements ITransportProtocolEntity {
+public abstract class TransportReceiver extends Stopable implements ITransportProtocolEntity {
 
-	protected LinkedBlockingQueue<Segment> inqueue;
-	protected ReceiverProcess receiver;
-	protected NetworkService ns;
-	
-	public TransportReceiver() {
-		super("TransportReceiver");
-		inqueue = new LinkedBlockingQueue<Segment>();
-	}
-	
-	public TransportReceiver(NetworkService ns) {
-		this();
-		ns.register(this);
-		this.ns = ns;
+	private ReceiverProcess receiver;
+	private NetworkService ns;
+
+	protected LinkedBlockingQueue<Segment> insegqueue;
+
+	public TransportReceiver(String name) {
+		super(name);
+		insegqueue = new LinkedBlockingQueue<Segment>();
+
 	}
 
 	public void register(NetworkService ns) {
 		ns.register(this);
 		this.ns = ns;
 	}
-	
+
 	public void register(ReceiverProcess receiver) {
 		this.receiver = receiver;
 	}
 
+	public final void rdt_send(byte[] data) {
+
+		// should never used in the current setting
+		throw new RuntimeException("rdt_send called in transport receiver");
+	}
+
+	// udt_send should always just deliver the data to the receiver
 	public final void deliver_data(byte[] data) {
 		receiver.deliver_data(data);
+	}
+
+	// udt_send should always just send the segment via the underlying network
+	// service
+	public final void udt_send(Segment segment) {
+		System.out.println("[Transport:Receiver ] udt_send: " + segment.toString());
+		ns.udt_send(new Datagram(segment));
 	}
 
 	// network service will call this method when segments arrive
@@ -44,36 +52,10 @@ public class TransportReceiver extends Stopable implements ITransportProtocolEnt
 		System.out.println("[Transport:Receiver ] rdt_recv: " + segment.toString());
 
 		try {
-			inqueue.put(segment);
+			insegqueue.put(segment);
 		} catch (InterruptedException ex) {
 
 			System.out.println("Transport receiver  " + ex.getMessage());
-			ex.printStackTrace();
-		}
-
-	}
-
-	public void udt_send(Segment data) {
-		
-		// do nothing in the basic transport receiver
-	}
-	
-	public final void rdt_send(byte[] data) {
-
-		// should never used in the current setting
-		throw new RuntimeException("rdt_send called in transport receiver");
-	}
-
-	public void doProcess() {
-
-		try {
-			Segment segment = inqueue.poll(2, TimeUnit.SECONDS);
-
-			if (segment != null) {
-				deliver_data(segment.getData());
-			}
-		} catch (InterruptedException ex) {
-			System.out.println("Transport receiver - deliver data " + ex.getMessage());
 			ex.printStackTrace();
 		}
 

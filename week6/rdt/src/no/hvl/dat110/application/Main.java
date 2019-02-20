@@ -3,6 +3,8 @@ package no.hvl.dat110.application;
 import no.hvl.dat110.network.Network;
 import no.hvl.dat110.network.Adversary;
 import no.hvl.dat110.transport.*;
+import no.hvl.dat110.transport.rdt1.TransportReceiverRDT1;
+import no.hvl.dat110.transport.rdt1.TransportSenderRDT1;
 
 public class Main {
 
@@ -11,8 +13,10 @@ public class Main {
 		Network network = new Network(new Adversary());
 		network.doRun();
 		
-		TransportSender tsender = new TransportSender(network.getService(0)); 
-		TransportReceiver treceiver = new TransportReceiver(network.getService(1));
+		TransportSenderRDT1 tsender = new TransportSenderRDT1();
+		tsender.register(network.getService(0)); 
+		TransportReceiverRDT1 treceiver = new TransportReceiverRDT1();
+		treceiver.register(network.getService(1));
 		
 		tsender.start();
 		treceiver.start();
