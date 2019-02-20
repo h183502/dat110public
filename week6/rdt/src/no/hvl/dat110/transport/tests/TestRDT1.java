@@ -15,7 +15,8 @@ public class TestRDT1 {
 		
 		ts.setupNetwork(new Adversary());
 		
-		ts.setupTransport(new TransportSenderRDT1(), new TransportReceiverRDT1());
+		ts.setupTransport(new TransportSenderRDT1(), 
+				new TransportReceiverRDT1());
 		
 		ts.runTest();
 				
