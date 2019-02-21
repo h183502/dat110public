@@ -32,11 +32,11 @@ The project is comprised of the following main tasks:
 
 6. Extend the broker such that if a subscribing client is currently disconnected and later reconnects, then the client will be provided with the messages that may have been published on the topic while the client was disconnected.
 
-**It is only required to done one of the tasks 5 and 6 - not both.**
+**It is only required to do one of the tasks 5 and 6 - not both.**
 
 ### Getting Started
 
-You should start by cloning the Java code which can be found in the github repository
+You should start by cloning the Java code which can be found in the github repository (CMOING SOON)
 
 https://github.com/selabhvl/dat110-project2-startcode.git
 
@@ -178,7 +178,7 @@ The purpose of this task is to connect multiple JavaFX-based GUI clients to a br
 
 ![](assets/chapp.png)
 
-Clone the implementation of the client which is available as an Eclipse-project from here:
+Clone the implementation of the client which is available as an Eclipse-project from here: (CMOING SOON)
 
 https://github.com/selabhvl/dat110-project2-chapp.git
 
