@@ -133,9 +133,11 @@ The TODO-comments in `Storage.java` class provides more detailed information abo
 
 All communication between the broker and the connected clients will be done via the `send`, `receive`, and `hasData`-methods of the corresponding `ClientSession`-object. The encapsulation of the underlying message transport connection has been already implemented in the `ClienSession.java` class
 
-The messages exhanged between the broker and the client will be a JSON-representation of the objects of the message-classes implemented in Task 1.  As an example, a `ConnectMsg`-object will be reprsented as follows:
+The messages exhanged between the broker and the client will be a JSON-representation of the objects of the message-classes implemented in Task 1.  As an example, a `ConnectMsg`-object will be represented as follows:
 
-TODO
+```java
+{"type":"CONNECT","user":"testuser"}
+```
 
 The conversion to/from the JSON format has already been implemented using the [gson-library](https://github.com/google/gson) library in the `MessageUtils.java` class.
 
