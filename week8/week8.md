@@ -1,7 +1,5 @@
 ## Week 8 Project : 25.02 - 01.03
 
-**WARNING: DESCRIPTION UNDER CONSTRUCTION**
-
 ### Organisation
 
 Week 8 is devoted to project work which is to be undertaken in **groups of 2-3 students**. Discussions among the groups are allowed, but the code handed in by the group should be the work of the group members - and not members of other groups.
@@ -145,15 +143,15 @@ The aim of this task it to implement the broker-side processing of the messages 
 
 The dispatcher contains an implementation of the `onConnect` and on `onDisconnect`-methods. Your task is to complete the implementation of the remaining methods:
 
-- public void onCreateTopic(CreateTopicMsg msg)
+- `public void onCreateTopic(CreateTopicMsg msg)`
 
-- public void onDeleteTopic(DeleteTopicMsg msg)
+- `public void onDeleteTopic(DeleteTopicMsg msg)`
 
-- public void onSubscribe(SubscribeMsg msg)
+- `public void onSubscribe(SubscribeMsg msg)`
 
-- public void onUnsubscribe(UnsubscribeMsg msg)
+- `public void onUnsubscribe(UnsubscribeMsg msg)`
 
-- public void onPublish(PublishMsg msg)
+- `public void onPublish(PublishMsg msg)`
 
 in order to be able to also process the remaining types of messages.
 
@@ -194,7 +192,7 @@ In order to compile the client you will in addition have to add the project cont
 
 Start a broker on one machine and let each group member run the ChApp-client on their machine. Try creating topics and then publish some messages. If you are not able to connect to the broker it may be due to firewall issues on the host running the broker. Make sure that the port on which the broker is running is not blocked by the firewall.
 
-### Task 5 - Message Buffering
+### Task 5: Message Buffering
 
 When a client disconnects from the broker, the corresponding `ClientSession-object` is removed from the storage. This means that if the client is subscribing to a topic and messages are published on that topic while the client is disconnected, then the client will not receive the published messages. If the client later reconnects, it will only receive those message that were published after the reconnect.
 
@@ -206,7 +204,7 @@ The aim of this task is to extend the implementation of the broker such that the
 
 You may use the ChApp-application to test the buffering implementation or alternatively write a unit test similar to the ones found in the `no.hvl.dat110.broker.processing.tests` package to create a scenario where a client (subscriber) disconnects for a while.
 
-### Task 6 - Multi-threaded Broker
+### Task 6: Multi-threaded Broker
 
 The implementation of the dispatcher in the `Dispatcher.java` class runs as a single `Stopable`-thread which in turn checks the current client sessions for incoming messages using the `hasData`-method. This means that it is not possible to exploit multiple-cores when running the broker, and this may degrade the performance of the broker as perceived by the clients.
 
