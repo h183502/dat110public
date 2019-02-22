@@ -217,3 +217,6 @@ Solving this task means that a new thread has to be spawned whenever a client co
 Each group must hand in a link on Canvas to a git-repository containing their implementation. You should keep the unit-test in the project as they are as we will use these for testing your implementation.
 
 Please remember to hand-in as a member of a group in Canvas: https://hvl365-my.sharepoint.com/:w:/g/personal/akv_hvl_no/EdkQXNKVjmhPrHNtD3n5r74B6KSb7DwmVYf9MA3SIUA4Sw?e=hC5Q9i
+
+### Possible high-level architectural diagram
+![](assets/project2-diagram.png)
