@@ -107,7 +107,7 @@ public class Storage {
  [...]
 ```
 
-The basic idea is to use a hash-map mapping from users (`String`) to a set of topics (`String`) for managing which users are subscribed to which topics. Similarly, the currently connected clients are stored in a hash-map mapping from a user (`String`) to a `ClientSession`-object representing the connection/session with the client.
+The basic idea is to use a hash-map mapping from topics (`String`) to a set of users (`String`) for managing which users are subscribed to which topics. Similarly, the currently connected clients are stored in a hash-map mapping from a user (`String`) to a `ClientSession`-object representing the connection/session with the client.
 
 You are required to complete the implementation of the following methods in the classes
 
