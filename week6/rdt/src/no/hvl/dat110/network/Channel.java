@@ -7,9 +7,9 @@ import no.hvl.dat110.transport.Stopable;
 
 public class Channel extends Stopable {
 
-	private LinkedBlockingQueue<Datagram> datagramqueue;
+	protected LinkedBlockingQueue<Datagram> datagramqueue;
 
-	private Adversary observer;
+	protected Adversary observer;
 	
 	public Channel(String name, Adversary observer) {
 		super(name);
@@ -24,6 +24,8 @@ public class Channel extends Stopable {
 			System.out.print("[Network:"+super.name+ "] transmit: " + datagram.toString());
 			
 			datagram = observer.process(datagram);
+			
+			System.out.println();
 			
 			if (datagram != null) {
 				datagramqueue.put(datagram);
