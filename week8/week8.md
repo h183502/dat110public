@@ -72,7 +72,9 @@ You are required to complete the implementation of the remaining message-classes
 
 - `SubscribeMsg.java` - sent by the client in order to subscribe to a `topic`.
 
-- `UnsubscribeMsg.java` - sent by the client in order to publish a `message` (`String`) on a topic and sent by the broker in order to deliver the message to subscribing clients.
+- `UnsubscribeMsg.java` - sent by the client in order to unsubscribe from a `topic`.
+
+- `PublishMsg.java` - sent by the client in order to publish a `message` (`String`) on a topic and sent by the broker in order to deliver the message to subscribed clients.
 
 The message-classes must have a constructor that can give a value to all object-variables, getter/setter methods for all object-variables, and they must implement a `toString`-method to be used for logging purposes.
 
