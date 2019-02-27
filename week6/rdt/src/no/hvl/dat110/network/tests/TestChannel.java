@@ -7,6 +7,7 @@ import org.junit.Test;
 import no.hvl.dat110.network.Channel;
 import no.hvl.dat110.network.*;
 import no.hvl.dat110.transport.*;
+import no.hvl.dat110.transport.rdt1.Adversary;
 
 public class TestChannel {
 

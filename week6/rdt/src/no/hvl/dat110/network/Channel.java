@@ -9,9 +9,9 @@ public class Channel extends Stopable {
 
 	protected LinkedBlockingQueue<Datagram> datagramqueue;
 
-	protected Adversary observer;
+	protected IAdversary observer;
 	
-	public Channel(String name, Adversary observer) {
+	public Channel(String name, IAdversary observer) {
 		super(name);
 		datagramqueue = new LinkedBlockingQueue<Datagram>();
 		this.observer = observer;

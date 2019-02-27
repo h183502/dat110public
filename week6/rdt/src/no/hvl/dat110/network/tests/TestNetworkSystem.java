@@ -8,6 +8,7 @@ import no.hvl.dat110.network.Channel;
 import no.hvl.dat110.network.NetworkService;
 
 import no.hvl.dat110.transport.*;
+import no.hvl.dat110.transport.rdt1.Adversary;
 import no.hvl.dat110.network.*;
 
 public class TestNetworkSystem {

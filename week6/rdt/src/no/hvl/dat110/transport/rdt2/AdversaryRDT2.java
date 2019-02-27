@@ -1,14 +1,16 @@
 package no.hvl.dat110.transport.rdt2;
 
-import no.hvl.dat110.network.Adversary;
 import no.hvl.dat110.network.Datagram;
-import no.hvl.dat110.transport.Segment;
+import no.hvl.dat110.network.IAdversary;
 
-public class AdversaryRDT2 extends Adversary {
+public class AdversaryRDT2 implements IAdversary {
 
 	private static double CORRUPTPB = 0.4;
 	
-	@Override
+	public int delay () {
+		return 0;
+	}
+	
 	public Datagram process (Datagram datagram) {
 		
 		if (Math.random() < CORRUPTPB) {

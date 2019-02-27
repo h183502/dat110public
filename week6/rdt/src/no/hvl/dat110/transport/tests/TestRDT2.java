@@ -2,7 +2,7 @@ package no.hvl.dat110.transport.tests;
 
 import org.junit.Test;
 
-import no.hvl.dat110.network.Adversary;
+import no.hvl.dat110.transport.rdt1.Adversary;
 import no.hvl.dat110.transport.rdt2.TransportReceiverRDT2;
 import no.hvl.dat110.transport.rdt2.TransportSenderRDT2;
 

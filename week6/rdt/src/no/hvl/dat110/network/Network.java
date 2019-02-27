@@ -1,11 +1,12 @@
 package no.hvl.dat110.network;
 
+
 public class Network {
 
 	private Channel[] channels;
 	private NetworkService[] networkservices;
 	
-	public Network (Adversary observer) {
+	public Network (IAdversary observer) {
 		
 		channels = new Channel[2];
 		
