@@ -1,14 +1,11 @@
-package no.hvl.dat110.transport.rdt4;
+package no.hvl.dat110.network;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import no.hvl.dat110.network.Channel;
-import no.hvl.dat110.network.Datagram;
-
 public class DelayChannel extends Channel {
 
-	public DelayChannel(String name, AdversaryRDT4 adversary) {
+	public DelayChannel(String name, IAdversary adversary) {
 		super(name, adversary);
 	}
 
@@ -50,7 +47,7 @@ public class DelayChannel extends Channel {
 
 		if (datagram != null) {
 
-			AdversaryRDT4 adversary = (AdversaryRDT4) observer;
+			IAdversary adversary = observer;
 
 			int delay = adversary.delay();
 
