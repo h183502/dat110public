@@ -25,7 +25,7 @@ public class Channel extends Stopable {
 			
 			datagram = observer.process(datagram);
 			
-			System.out.println();
+			// System.out.println();
 			
 			if (datagram != null) {
 				datagramqueue.put(datagram);

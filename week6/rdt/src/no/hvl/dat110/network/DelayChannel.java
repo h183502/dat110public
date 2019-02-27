@@ -51,7 +51,7 @@ public class DelayChannel extends Channel {
 
 			int delay = adversary.delay();
 
-			System.out.println();
+			//System.out.println();
 			
 			if (delay > 0) {
 
