@@ -25,7 +25,7 @@ public class DelayChannel extends Channel {
 
 			try {
 				
-				System.out.print("[Network:" + getNetwork() + "] delayed arrival: " + datagram.toString());
+				System.out.println("[Network:" + getNetwork() + "] delayed arrival: " + datagram.toString());
 				
 				datagramqueue.put(datagram);
 				

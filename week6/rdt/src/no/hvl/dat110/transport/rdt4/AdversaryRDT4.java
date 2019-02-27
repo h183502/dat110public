@@ -1,7 +1,6 @@
 package no.hvl.dat110.transport.rdt4;
 
 import no.hvl.dat110.network.Datagram;
-import no.hvl.dat110.network.IAdversary;
 import no.hvl.dat110.transport.rdt3.AdversaryRDT3;
 
 public class AdversaryRDT4 extends AdversaryRDT3 {
@@ -15,7 +14,7 @@ public class AdversaryRDT4 extends AdversaryRDT3 {
 		
 		if (Math.random() <= DELAYPB) {
 			delay = (int)(DELAYLIMIT * Math.random());
-			System.out.print("<");
+			System.out.print("<" + delay);
 		} else {
 			System.out.print(">");
 		}
