@@ -18,10 +18,10 @@ public class AdversaryRDT2 implements IAdversary {
 			SegmentRDT2 segment = (SegmentRDT2) datagram.getSegment();
 			segment.setChecksum(((byte)0)); // 0 is correct checksum on ack/nak
 			
-			System.out.println("*");
+			System.out.print("*");
 			
 		} else {
-			System.out.println("+");
+			System.out.print("+");
 		}
 		
 		return datagram;

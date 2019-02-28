@@ -50,8 +50,6 @@ public class DelayChannel extends Channel {
 			IAdversary adversary = observer;
 
 			int delay = adversary.delay();
-
-			//System.out.println();
 			
 			if (delay > 0) {
 
@@ -70,6 +68,8 @@ public class DelayChannel extends Channel {
 					ex.printStackTrace();
 				}
 			}
-		}
+		} 
+		
+		System.out.println();
 	}
 }

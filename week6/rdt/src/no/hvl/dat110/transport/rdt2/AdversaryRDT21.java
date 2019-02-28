@@ -19,10 +19,10 @@ public class AdversaryRDT21 implements IAdversary {
 			segment.setChecksum(((byte)1)); // Now also corrupt ack/naks
 			
 			assert (segment.isCorrect() == false);
-			System.out.println("*");
+			System.out.print("*");
 			
 		} else {
-			System.out.println("+");
+			System.out.print("+");
 			assert ((SegmentRDT21)datagram.getSegment()).isCorrect();
 		}
 		

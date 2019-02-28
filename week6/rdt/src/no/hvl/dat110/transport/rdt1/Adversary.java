@@ -11,7 +11,7 @@ public class Adversary implements IAdversary {
 	
 	public Datagram process(Datagram datagram) {
 		
-		System.out.println("+");
+		System.out.print("+");
 		return datagram;
 	}
 }

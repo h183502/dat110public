@@ -22,16 +22,16 @@ public class AdversaryRDT3 implements IAdversary {
 			SegmentRDT21 segment = (SegmentRDT21) datagram.getSegment();
 			segment.setChecksum(((byte)1)); 
 			
-			System.out.println("*");
+			System.out.print("*");
 			
 		} else if (rnd <= CORRUPTPB + LOSSPB ) { // loss
 		
 			datagram = null; 
-			System.out.println("-");
+			System.out.print("-");
 			
 		} else { // success
 			
-			System.out.println("+");
+			System.out.print("+");
 			
 		}
 		
