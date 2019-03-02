@@ -1,42 +1,58 @@
 ### Lab Week 9: 04/03 - 08/03
 
-#### Exercises under construction
-
 #### Exercise 1 - Reliable Data Transfer Framework
 
-For doing some practical experiments with implementation of transport layer protocols for reliable data transfer (rdt), we will use the framework which can be found in the Eclipse project at:
+Exercise 2 and 3 below is concerned with implementation of transport layer protocols based on the RDT Java framework that has been introduced and discussed in the lectures on the transport layer. To undertake this exercise and the following two exercies it is assumed that you have read pages 234-245 in the networking book. You may also want to review the lecture notes from the transport layer I and transport layer II lectures.
+
+Make sure that you have pulled the most recent version of the framework available as an Eclipse-project at:
 
 https://github.com/selabhvl/dat110public/tree/master/week6/rdt
 
-and which has also been discussed at the lectures on transport protocols
-
-The main goal of this exercise is to start becoming familiar with this framework.
-
-Start by importing the project into your IDE (Eclipse) and make sure that the classes and the tests compiles.
+If you have not already done so earlier, then start by importing the project into your IDE (Eclipse) and make sure that the classes and the tests compiles.
 
 The project is organised into the following packages
 
 - `no.hvl.dat110.application` implements a sender process that sends messages to a receiver process using the underlying transport protocol implementation.
 
-- `no.hvl.dat110.transport` contains the classes that implements the transport protocols for reliable data transfer of segments. The `TransportSender` and `TransportReceiver` classes in this package, implements the reliable data transfer over a perfectly reliable channel (rdt1.0) as described on pages 236-237 in the networking book.
+- `no.hvl.dat110.network` implements a simulated network that can connect a sender and a receiver by means of two channels (one in each direction). By changing the type of channel and the associated adversary, we can simulate reliable and unreliable networks and experiments with different transport protocol implementations.
 
-- `no.hvl.dat110.network` implements a simulated network that can connect a sender and a receiver by means of two channels (one in each direction). By changing the type of channel we can simulate reliable and unreliable networks and experiments with different transport protocol implementations.
+- `no.hvl.dat110.transport` contains the base classes for implementing transport protocols for reliable data transfer of segments.
 
-- `no.hvl.dat110.transport.rdt2` implements the rdt2.0 transport protocol for reliable data transfer over a channel with bit errors as described on pages 237-239 in the networking book
+- `no.hvl.dat110.transport.rdt1` implements the reliable data transfer over a perfectly reliable channel (rdt1.0) as described on pages 236-237 in the networking book.
 
 - `no.hvl.dat110.trasport.tests` implements some JUnit-tests for testing the transport protocols. The basic requirement is that the receiver must receive all data from the sender and in correct order.
 
-#### Exercise 2 - RDT 2.1
+#### Exercise 2 - RDT 2.2 Implementation
 
-Implement the RDT 2.1 from the book
+The  `no.hvl.dat110.transport.rdt2` package  implements the RDT 2.1 transport protocol for reliable data transfer over a channel with bit errors as described on pages 237-239 in the networking book. The implementation of the sender and receiver are in the classes `TransportSenderRDT21.java` and `TransportReceiverRDT21.java` as presented at the lectures.
 
-#### Exercise 3 - RDT 3 - study the implementations
+The transport receiver of RDT2.1 uses a NAK (negative acknowledgement) to signal that a corrupt data segment has been received. As described on page 242 in the networking book, then it is also possible to replace the use of NAKs with the use of an acknowledgement in combination with a sequence number.
 
-#### Exercise 4 - RDT 4
+Modify the RDT 2.1 implementation to become an RDT2.2 implementation as described on page 242 in the networking book. The test `TestRDT21Adversary21.java` can be used to test your protocol implementation.
 
-#### Exercise 5 - RDT 4.1
+#### Exercise 3 - Reliable Transport and Overtaking
 
-#### Exercise 6 - Lamport clock
+The  `no.hvl.dat110.transport.rdt2` package implements the RDT 3.0 transport protocol for reliable data transfer over a channel with bit errors and loss of segments as described on pages 242-245 in the networking book.
+
+##### Task-1: Study the RDT 3.0 Implementation
+
+The implementation of the sender in `TransportSenderRDT3.java` uses a timer to recover from possible loss of data and acknowledgements. Study the implementation of the transport sender and transport receiver in order to understand how it implements the state machines shown in Figures 3.15 and 3.16. The test in `TestRDT3Adversary3.java` can be used to run the implementation.  
+
+##### Task-2: Implementation of the RDT 4.0 Protocol
+
+The RDT3.0 protocol cannot recover from overtaking of segments. The `no.hvl.dat110.transport.rdt4` contains templates for the implementing a RDT 4.0 protocol that can recover from overtaking of segments. The protocol is to replace the alternating bit sequence number with an increaing sequence number and operating as follows:
+
+- The sender keeps sending the same data segment (having the same sequence number) until an acknowledgement with a sequence number which is one higher is received. This should include retransmission similar to RDT 3.0
+
+- The receiver keeps a (internal) sequence number indicating the data segment expected next. If a data segment with tje expected sequence number is received, then the internal sequence number is incremented and a corresponding acknowledgement segment is sent back to the sender. If the receiver receives a data segment with the wrong (non-expected) sequence number, then the receiver replies with an acknowledgement segment containing the sequence number of the data segment expected next.
+
+The test in `TestRDT4Adversary4.java` can be used to test and run the protocol implementation.
+
+##### Task-3: Variant of the RDT4.0 Protocol
+
+Modify the implementation of the receiver side of the protocol in Task-2 such that an acknowledgement is only sent if the data segment with the expected sequence number is received. Is the protocol still correct?
+
+#### Exercise 4 - Lamport Clock
 
 This exercise is based on Section 6.2 of the distributed system book. The goal is to show how event ordering in distributed systems can be achieved by using logical clock as proposed by Lamport.
 
@@ -60,13 +76,11 @@ The project is organized as follows:
 
 ##### Task-1: Run the project
 Run the project using the LamportClockTest junit test and confirm that the the test fails because the final balance is different from each replica. You will find that a default value is used for balance in the 'Process' class (private double balance = 1000;	// default balance). You can also run the project by first running 'ProcessContainer' and then run SimulateReplicas.
- 
+
 ##### Task-2: Implement sortQueue and sendAcknowledgement
 Recall that sorting the queue based on the logical timestamp and the processid (to break ties) is important to achieving a totally-ordered events (queue). Your task is to sort the queue first on the clock and then on the processid.
- 
+
 Next, you should implement the sendAcknowledgement method. When a process receives a message from another process, it multicasts acknowledgement to other processes. After these, run the program and check that the test passed.
- 
+
 ##### Task-3: Implement Withdrawal operation
 Implement withdrawal operation in the withdrawal method. You can check other opperations (requestDeposit) to get an idea how to fix it. Lastly, you should fix the 'TODO' for the withdrawal operation in the applyOperation method. After these, run the program and check that the test passed.
- 
- 
