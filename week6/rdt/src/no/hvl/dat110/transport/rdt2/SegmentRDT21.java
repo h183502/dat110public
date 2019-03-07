@@ -17,6 +17,11 @@ public class SegmentRDT21 extends SegmentRDT2 {
 		super(type);
 	}
 	
+	public SegmentRDT21(SegmentType type, int seqnr) {
+		super(type);
+		this.seqnr = seqnr;
+	}
+	
 	public int getSeqnr () {
 		return this.seqnr;
 	}
