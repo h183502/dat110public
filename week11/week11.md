@@ -2,7 +2,7 @@
 
 #### Exercise 1 - Two-phase commit protocol
 
-Consider the CPN model of the [two phase commit protocol](https://github.com/selabhvl/dat110public/blob/master/week11/stopwaitprotocolmodel.cpn) that was covered in the lectures.
+Consider the CPN model of the [two phase commit protocol](https://github.com/selabhvl/dat110public/blob/master/week11/stopwaitprotocolmodel.cpn) described in the paper: https://hvl.instructure.com/courses/6156/files/folder/material?preview=380233 
 
 Use CPN Tools and simulation to perform some executions of the CPN model. Make sure that you cover both the case where workers votes `Yes`, and where some worker votes `No`.
 
