@@ -10,7 +10,7 @@ Modify the CPN model such that the coordinator will instruct the workers to comm
 
 #### Exercise 2 - CPN model of a Go-back-N transport protocol
 
-Consider the CPN model of the [stop-and-wait protocol](https://github.com/selabhvl/dat110public/blob/master/week11/twophasecommitmodel.cpn) that was presented in the lectures.
+Consider the CPN model of the [stop-and-wait protocol](https://github.com/selabhvl/dat110public/blob/master/week11/stopwaitprotocolmodel.cpn) that was presented in the lectures.
 
 Augment the CPN model to become a CPN model of a Go-back N protocol by doing task 1 and 2 described at: https://github.com/lmkr/cpnbook/blob/master/projects/project1.md
 
