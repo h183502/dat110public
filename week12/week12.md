@@ -28,8 +28,11 @@ We use a simple implementation where a node, once it has successfully joined a c
 A file can then be looked up by any client from any node in the ring (see the fig). The resolution for a file starts from this node.
 
 The current implementation of the project allows the simulation of chord ring in a single machine environment.
-To use multi computer requires two slight modifications. 1. In the Node class constructor - change the setNodeIP to use the IP address of the machine (setNodeIP(InetAddress.getLocalHost().getHostAddress())) instead of setNodeIP(nodename). 2. In the Util class, use registry = LocateRegistry.getRegistry(ipaddress, StaticTracker.PORT) and comment out registry = LocateRegistry.getRegistry(StaticTracker.PORT);
-When this is done, you can now start the chord project on each machine.
+To use multi computer simulation requires two slight modifications. 
+1. In the Node class constructor - change the setNodeIP to use the IP address of the machine (setNodeIP(InetAddress.getLocalHost().getHostAddress())) instead of setNodeIP(nodename). 
+2. In the Util class, use registry = LocateRegistry.getRegistry(ipaddress, StaticTracker.PORT) and comment out registry = LocateRegistry.getRegistry(StaticTracker.PORT);
+
+When these changes are made, you can then start the chord project on different machines.
 
 The ChordDHT is provided to you as a complete system that allows you to test read and write requests from any client and also test the quorum-based consistency protocol.
 
