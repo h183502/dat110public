@@ -13,6 +13,10 @@ Therefore the project builds on exercise 7 - Chord Distributed Hash Table (https
 
 ### Description of project
 This implementation is based on synchronous communication by using the Java RMI remote procedure call (RPC)
+The system works under these models and assumptions
+- Our quorum-based protocol uses strict and active consistency model
+- We assume no message loss during communications
+- We assume that network is stable and there is no communication failure
 
 A DHT can be used to build a cooperative mirroring peer-to-peer distributed system in which multiple providers of content cooperate to store and serve each others’ data.
 
@@ -47,10 +51,9 @@ The ChordDHT project is divided into the following packages:
 
 ##### no.hvl.dat110.node
 - Node: implements the ChordNodeInterface with its attributes and methods. For example, a node has an IP address, an identifier (hash of the IP address), finger table list, key id list, and so on. In addition, a node can be called to lookup any key id. Therefore, the method findSuccessor(keyid) and findHighestPredecessor(keyid) are directly implemented in node. In addition, the predecessor P of the successor S of node N can be notified that it has a new predecessor N, if P is between N and S after a remote call. This is implemented as P.notifySuccessor(N) and it's usually called during stabilize ring operation.
-- Message: 
-- Operations:
-- OperationType: 
-- MajorityPermission:
+- Message: This is used to store the message we want to send among the nodes. It is also used to send back acknowledgements to the sender process. 
+- Operations: The class handles the actual read and write requests and operations from the client processes.
+- OperationType: An enum where the read and write types are defined
 
 - NodeInformation: used to print out information about the status of the node (IP, ID, finger table entries, current keys)
 
@@ -67,10 +70,11 @@ This package contains five classes responsible for specific chord protocols:
 - FixFingerTable: runs periodically to update the finger table for each node.
 - UpdateSuccessor: runs periodically to set the first pointer of the finger table to the correct successor
 - JoinRing: calls once when the node is being created to determine whether to join an existing ring or to start a new ring. It uses initial addresses from the StaticTracker class to determine who and where to join a ring.
-- LeaveRing: runs periodically until the specified sleep time after which it the node leaves the ring
+- LeaveRing: runs periodically until the specified sleep time after which it the node leaves the ring. runs periodically and shutdown the node when the specified ttl is reached or program loops forever if loopforever = true
 
 ##### no.hvl.dat110.file
-- FileMapping: used to simulate cooperative mirroring by using random files and distributing those files among existing chord nodes.
+- FileManager: contains methods for creating replicas of a file, distributing those replicas among active nodes in the chord ring, and looking up the active nodes responsible for a given file by iteratively resolving the replicaid (hash of replica) from an active node.
+The FileManager can also be run periodically by each chord node to distribute files to new nodes that just joined the ring. (This may not be necessary as stabilize ring protocol 
 
 ##### no.hvl.dat110.rpc
 - ChordNodeContainer: This is the 'server' for the node where the registry is started and where the binding of the remote stub object for the Node is done. In addition, all periodic chord operations are started in this class currently.
@@ -92,13 +96,29 @@ This package contains five classes responsible for specific chord protocols:
 
 ### QuorumAlgorithm project organisation
 
+ This project implements the quorum-based protocol. The project uses synchronous rpc communication among the processes. The quorum protocol is a replicated-write protocol where processes vote gain write or read permission to a replicated resource. Assume a file is replicated N times and distributed on N servers, a process that wants to write to a replica file needs to assemble a write quorum (i.e. majority of N servers must give permission). The same process is observed for a read operation.
+
+To prevent read-write and write-write conflicts, the voting algorithm must fulfil two constraints:
+
+Gifford method:
+Nr + Nw > N (prevents read-write conflicts)
+Nw > N/2  (prevents write-write conflicts)
+
+Simple method:
+Nr = N/2 + 1
+Nw = N/2 + 1
+This method also prevents both conflicts since each time, a quorum for write or read requires the majority (> N/2). 
+ 
+The implementation should use the simple method.
+You are provided with the template and code skeleton that helps to reason about the implementation and allows you to test if it works. 
+
 ##### no.hvl.dat110.mutexprocess
 - MutexProcess: 
 - ProcessContainer:
-- Message:
+- Message: This is used to store the message we want to send among the nodes. It is also used to send back acknowledgements to the sender process. 
+- Operations: The class handles the actual read and write requests and operations from the client processes.
+- OperationType: An enum where the read and write types are defined
 - Config:
-- MajorityPermission:
-- Operations:
 
 ##### no.hvl.dat110.interfaces
 - ProcessInterface:
@@ -107,12 +127,16 @@ This package contains five classes responsible for specific chord protocols:
 ##### no.hvl.dat110.util
 - Util:
 
-##### no.hvl.dat110.clients
-- Processes (1-10) creating read and write operations to test quorum-based consistency protocol
+##### no.hvl.dat110.clients.test
+Unit test files to test quorum-based protocols using 10 communicating processes
+- TestConcurrentReadWriteConsistency:
+- TestQuorumAlgorithmFail:
+- TestQuorumAlgorithmPass:
+- TestWriteReadConsistency: 
 
 
 
-There are two major tasks that you will implement in this project
+There are three major tasks that you will implement in this project
 
 #### Task 1 - implement a quorum-based consistency protocol
 
