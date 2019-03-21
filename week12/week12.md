@@ -14,7 +14,7 @@ Therefore the project builds on exercise 7 - Chord Distributed Hash Table (https
 ### Description of project
 This implementation is based on synchronous communication by using the Java RMI remote procedure call (RPC)
 The system works under these models and assumptions
-- Our quorum-based protocol uses strict and active consistency model
+- Our quorum-based protocol uses strict, sequential consistency model and replicated write protocol
 - We assume no message loss during communications
 - We assume that network is stable and there is no communication failure
 
@@ -60,7 +60,8 @@ The ChordDHT project is divided into the following packages:
 ##### no.hvl.dat110.node.client.test
 - NodeClientReader: 
 - NodeClientWriter:
-- NodeClientTester: class that can be run to lookup a keyid of a resource and obtain the node that is responsible for it. The file id needs to be specified in the class.
+- NodeClientTester: class that can be run to lookup a keyid of a file and obtain all the active nodes that is responsible for all replicas of the file. The file id needs to be specified in the class.
+- NodeClient: class that can be run to lookup a keyid of a file replica and obtain the node that is responsible for it. The replica id needs to be specified in the class.
 - ChordRingTest: 
 
 ##### no.hvl.dat110.chordoperations
@@ -79,18 +80,18 @@ The FileManager can also be run periodically by each chord node to distribute fi
 ##### no.hvl.dat110.rpc
 - ChordNodeContainer: This is the 'server' for the node where the registry is started and where the binding of the remote stub object for the Node is done. In addition, all periodic chord operations are started in this class currently.
 
-- StaticTracker: class that defines the ip addresses of possible active nodes in a ring. In addition, the port for the registry is specified in this class.
+- StaticTracker: class that defines the ip addresses of possible active nodes in a ring. In addition, the port for the registry is specified in this class and the number of times a file should be replicated
 
 ##### no.hvl.dat110.util
 - Hash: implements hash function method and converts the hash value to big integer. Also, it implements a custom modulo 2^mbit function for testing purposes (where mbit = 4).
 - Util: contains various utility methods for obtaining registry or performing conversion.
 
 ### Running the ChordDHT program
-1. Specify one valid IP address (multi-machine testsing) or process name (single machine testing) in the StaticTracker class (This class starts and creates the ring)
+1. Specify one valid IP address (multi-machine testsing) or process name (single machine testing) in the StaticTracker class (This class starts and creates the ring). You can simply leave the process names as "process1", "process2", "process3", ...
 2. Specify the ttl value to decide how long the node should be alive. If you want the program to run forever, set the run forever variable to true in the ChordNodeContainer. Or increase the sleep time to make it run longer.
 3. Run the ChordNodeContainer class
 4. Several ChordNodeContainer instances can then be launched. Each must specify addresses of active ChordNodeContainers that are running currently
-5. 
+5. Run the NodeClient class to test that a client can contact an active node and request for a file by resolving the file through the contacted node.
 
 
 
@@ -121,7 +122,7 @@ You are provided with the template and code skeleton that helps to reason about 
 - Config:
 
 ##### no.hvl.dat110.interfaces
-- ProcessInterface:
+- ProcessInterface: Interface class 
 - OperationType:
 
 ##### no.hvl.dat110.util
@@ -141,14 +142,38 @@ There are three major tasks that you will implement in this project
 #### Task 1 - implement a quorum-based consistency protocol
 
 You should use the QuorumAlgorithm template to implement the algorithm correctly. 
-- implement a quorum-based consistency protocol on the template provided. Test and make sure the algorithm works correctly by using the unit tests provided with the project
+- implement a quorum-based consistency protocol on the template provided. 
+- Implement the missing parts in the template (MutexProcess)
+- Use the Unit tests provided to test the correctness of your implementation
+
+Test and make sure the algorithm works correctly by using the unit tests provided with the project
 ***more descriptions to follow
 
 #### Task 2 - Integrate the Quorum algorithm into the ChordDHT
 
-- Integrate the quorum-based implementation with the chord implementation. Test your implementation using the unit tests provided with the chord project
-*** more descriptions to follow
+- Integrate the quorum-based implementation with the chord implementation. 
 
-#### Task 3 - Implement Read and Write clients
+- The second task requires that you integrate the quorum protocol into the chordDHT system.
+- To do this, you would need to use the MutexInterface which has already been integrated.
+- Your task, would then be to fill in the implementations in the missing methods
+- Note that if your previous  implementation of quorum works correctly, it should not be very hard to transfer to the chordDHT (Node) process. Both are very similar.
+- Use the unit tests to verify that you have correctly integrated the quorum protocol with ChordDHT
+
+
+#### Task 3 - Implement Read and Write clients for the DHT
 Your task here is to implement clients that can send a read or write request to the chord ring by contacting any of the active node.
+- Here you need to implement read and write clients that can make request to any active node in the chord ring.
+- Three classes need to be modified
+1 FileManager class
+2 NodeClientReader
+3 NodeClientWriter
+- A client would first contact an active node in the ring
+- Send the filename with the request
+- The FileManager generates keyids for the file replicas and resolve each replica from the contacted node.
+- Result is a list of active nodes that have the replicas in their filekey list.
+- The client decide which node to contact and retrieve the file
+- Use the NodeClientTester as inspiration
+- Test your implementation using the unit tests provided with the chord project
+
+
 
