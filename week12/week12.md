@@ -40,7 +40,7 @@ When these changes are made, you can then start the chord project on different m
 
 The ChordDHT is provided to you as a complete system that allows you to test read and write requests from any client and also test the quorum-based consistency protocol.
 
-To get started you need to download and import the ChordDHT and the QuorumAlgorithm projects into your eclipse IDE. You can find the project here:https://github.com/selabhvl/dat110public/tree/master/week12/ChordDHT
+To get started you need to download and import the ChordDHT and the QuorumAlgorithm projects into your eclipse IDE. You can find the project here:<to be posted soon>
 The ChordDHT project is divided into the following packages:
 
 ### ChordDHT Project organisation
