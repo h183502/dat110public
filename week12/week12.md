@@ -83,7 +83,7 @@ The FileManager can also be run periodically by each chord node to distribute fi
 - StaticTracker: class that defines the ip addresses of possible active nodes in a ring. In addition, the port for the registry is specified in this class and the number of times a file should be replicated
 
 ##### no.hvl.dat110.util
-- Hash: implements hash function method and converts the hash value to big integer. Also, it implements a custom modulo 2^mbit function for testing purposes (where mbit = 4).
+- Hash: implements hash function method and converts the hash value to big integer. Also, it implements a custom modulo 2^mbit function for testing purposes (where mbit = 4). The current implementation uses SHA-1 which is a 128bit hash algorithm.
 - Util: contains various utility methods for obtaining registry or performing conversion.
 
 ### Running the ChordDHT program
