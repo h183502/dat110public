@@ -101,17 +101,16 @@ The FileManager can also be run periodically by each chord node to distribute fi
 
 To prevent read-write and write-write conflicts, the voting algorithm must fulfil two constraints:
 
-Gifford method:
-Nr + Nw > N (prevents read-write conflicts)
-Nw > N/2  (prevents write-write conflicts)
+- Gifford method:
+1. Nr + Nw > N (prevents read-write conflicts)
+2. Nw > N/2  (prevents write-write conflicts)
 
-A simpler method:
-Nr = N/2 + 1
-Nw = N/2 + 1
-This method also prevents both conflicts since each time, a quorum for write or read requires the majority (> N/2). 
+- A simpler method:
+1. Nr = N/2 + 1
+2. Nw = N/2 + 1
+- This method also prevents both conflicts since each time, a quorum for write or read requires the majority (> N/2). 
  
-The implementation should use the simple method.
-You are provided with the template and code skeleton that helps to reason about the implementation and allows you to test if it works. 
+The implementation should use the simple method. You are provided with the template and code skeleton that helps to reason about the implementation and allows you to test if it works. 
 
 ##### no.hvl.dat110.mutexprocess
 - MutexProcess: 
