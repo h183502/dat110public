@@ -105,7 +105,7 @@ Gifford method:
 Nr + Nw > N (prevents read-write conflicts)
 Nw > N/2  (prevents write-write conflicts)
 
-Simple method:
+A simpler method:
 Nr = N/2 + 1
 Nw = N/2 + 1
 This method also prevents both conflicts since each time, a quorum for write or read requires the majority (> N/2). 
@@ -137,7 +137,7 @@ Unit test files to test quorum-based protocols using 10 communicating processes
 
 
 
-There are three major tasks that you will implement in this project
+There are three major tasks that you will implement in this project:
 
 #### Task 1 - implement a quorum-based consistency protocol
 
@@ -175,5 +175,7 @@ Your task here is to implement clients that can send a read or write request to 
 - Use the NodeClientTester as inspiration
 - Test your implementation using the unit tests provided with the chord project
 
+### Complete ChordDHT with Quorum protocol
 
+![](assets/chord-quorum-complete.png)
 
