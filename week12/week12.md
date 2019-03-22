@@ -172,7 +172,7 @@ Your task here is to implement clients that can send a read or write request to 
 - The FileManager generates keyids for the file replicas and resolve each replica from the contacted node.
 - Result is a list of active nodes that have the replicas in their filekey list.
 - The client decide which node to contact and retrieve the file
-- Use the NodeClientTester as inspiration
+- Use the NodeClientTester and NodeClient as inspiration
 - Test your implementation using the unit tests provided with the chord project
 
 ### Complete ChordDHT with Quorum protocol
