@@ -101,7 +101,7 @@ The FileManager can also be run periodically by each chord node to distribute fi
 
 To prevent read-write and write-write conflicts, the voting algorithm must fulfil two constraints:
 
-- Gifford method:
+- Gifford's method:
 1. Nr + Nw > N (prevents read-write conflicts)
 2. Nw > N/2  (prevents write-write conflicts)
 
@@ -125,15 +125,14 @@ The implementation should use the simple method. You are provided with the templ
 - OperationType:
 
 ##### no.hvl.dat110.util
-- Util:
+- Util: contains various utility methods for obtaining registry or performing conversion.
 
 ##### no.hvl.dat110.clients.test
 Unit test files to test quorum-based protocols using 10 communicating processes
-- TestConcurrentReadWriteConsistency:
-- TestQuorumAlgorithmFail:
-- TestQuorumAlgorithmPass:
-- TestWriteReadConsistency: 
-
+- TestConcurrentReadWriteConsistency: The unit test verifies the correctness of the quorum implementation when two concurrent processes want to read and write to a copy of their replicated file.
+- TestQuorumAlgorithmFail: The unit test that test the read or write quorum algorithm by manipulating other processes to hold locks to their critical section. The test must fail.
+- TestQuorumAlgorithmPass: The unit test that test the read or write quorum algorithm by manipulating other processes to hold locks to their critical section. The test must pass.
+- TestWriteReadConsistency: A unit test that tests a write and read consistency sequentially.
 
 
 There are three major tasks that you will implement in this project:
