@@ -145,8 +145,6 @@ You should use the QuorumAlgorithm template to implement the algorithm correctly
 - Implement the missing parts in the template (MutexProcess)
 - Use the Unit tests provided to test the correctness of your implementation
 
-Test and make sure the algorithm works correctly by using the unit tests provided with the project
-***more descriptions to follow
 
 #### Task 2 - Integrate the Quorum algorithm into the ChordDHT
 
