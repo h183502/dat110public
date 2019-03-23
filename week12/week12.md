@@ -79,7 +79,8 @@ The ChordDHT is provided to you as a complete system that allows you to test rea
 - In addition, you can create a jar file for each process (1-10) where the main-class is                                                                                                                                           specified as the name of the process. This allows you to launch the chord nodes from an external terminal and provides the flexibility to view only the results of your unit-tests in the IDE. You can use the chord.sh located here: https://github.com/selabhvl/dat110public/blob/master/week12/chordjars/chord.sh for this purpose. 
 - When you have generated the jar files, run each jar file e.g. $ java -jar chorddht1.jar in a separate terminal. (Note chorddht1.jar must be started first) 
 - If you want to use multiple machines, then make the changes mentioned at the beginning, specify one valid IP address (multi-machine setup) in the StaticTracker class (This process class is expected to be started first to create the ring). Recompile using ChordNodeContainer as the Main Class in the manifest file and generate a new single jar file. Distribute this jar file among the group members.
-On the IDE:
+
+**Running on the IDE:**
 - Run the first ChordNodeContainer class (e.g. process1)
 - Several ChordNodeContainer instances can then be launched. Each must specify addresses of at least one active ChordNodeContainer that is running currently in their StaticTracker class (e.g. "process1", "process2", etc.)
 
