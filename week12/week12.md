@@ -172,9 +172,9 @@ You should use the QuorumAlgorithm template to implement the algorithm correctly
 Your task here is to implement clients that can send a read or write request to the chord ring by contacting any of the active node.
 - Here you need to implement read and write clients that can make request to any active node in the chord ring.
 - Three classes need to be modified
-1 FileManager: Implement requestActiveNodesForFile, requestToReadFileFromAnyActiveNode, and requestWriteToFileFromAnyActiveNode methods
-2 NodeClientReader: Implement the sendRequest() method
-3 NodeClientWriter: Implement the sendRequest() method
+1. FileManager: Implement requestActiveNodesForFile, requestToReadFileFromAnyActiveNode, and requestWriteToFileFromAnyActiveNode methods
+2. NodeClientReader: Implement the sendRequest() method
+3. NodeClientWriter: Implement the sendRequest() method
 - A client would first contact an active node in the ring
 - Send the filename with the request
 - The FileManager generates keyids for the file replicas and resolve each replica from the contacted node.
