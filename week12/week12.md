@@ -38,10 +38,8 @@ To use multi computer simulation requires two slight modifications.
 
 When these changes are made, you can then start the chord project on different machines.
 
-The ChordDHT is provided to you as a complete system that allows you to test read and write requests from any client and also test the quorum-based consistency protocol.
+The ChordDHT is provided to you as a complete system that allows you to test read and write requests from any client and also test the quorum-based consistency protocol. Warning! You'll get many messages in the console when you run each chordNode, you may remove them in the code.
 
-To get started you need to download and import the ChordDHT and the QuorumAlgorithm projects into your eclipse IDE. You can find the project here:<to be posted soon>
-The ChordDHT project is divided into the following packages:
 
 ### ChordDHT Project organisation
 
@@ -86,11 +84,11 @@ The FileManager can also be run periodically by each chord node to distribute fi
 - Hash: implements hash function method and converts the hash value to big integer. Also, it implements a custom modulo 2^mbit function for testing purposes (where mbit = 4). The current implementation uses SHA-1 which is a 128bit hash algorithm.
 - Util: contains various utility methods for obtaining registry or performing conversion.
 
-### Running the ChordDHT program
-1. Specify one valid IP address (multi-machine testsing) or process name (single machine testing) in the StaticTracker class (This class starts and creates the ring). You can simply leave the process names as "process1", "process2", "process3", ...
+### Running the ChordDHT system
+1. Specify one valid IP address (multi-machine setup) or process name (single machine testing) in the StaticTracker class (This process class is expected to start be started first to create the ring). You can simply leave the process names as "process1", "process2", "process3", ..., etc.
 2. Specify the ttl value to decide how long the node should be alive. If you want the program to run forever, set the run forever variable to true in the ChordNodeContainer. Or increase the sleep time to make it run longer.
-3. Run the ChordNodeContainer class
-4. Several ChordNodeContainer instances can then be launched. Each must specify addresses of active ChordNodeContainers that are running currently
+3. Run the first ChordNodeContainer class (e.g. process1)
+4. Several ChordNodeContainer instances can then be launched. Each must specify addresses of active ChordNodeContainers that are running currently in their StaticTracker class (e.g. "process1", "process2", etc.)
 5. Run the NodeClient class to test that a client can contact an active node and request for a file by resolving the file through the contacted node.
 
 
@@ -113,41 +111,55 @@ To prevent read-write and write-write conflicts, the voting algorithm must fulfi
 The implementation should use the simple method. You are provided with the template and code skeleton that helps to reason about the implementation and allows you to test if it works. 
 
 ##### no.hvl.dat110.mutexprocess
-- MutexProcess: 
-- ProcessContainer:
+- MutexProcess: The process that receives read/write request.
+- ProcessContainer: The 'server' for the MutexProcess
 - Message: This is used to store the message we want to send among the nodes. It is also used to send back acknowledgements to the sender process. 
 - Operations: The class handles the actual read and write requests and operations from the client processes.
 - OperationType: An enum where the read and write types are defined
-- Config:
+- Config: where PORT number is configured
 
 ##### no.hvl.dat110.interfaces
-- ProcessInterface: Interface class 
-- OperationType:
+- ProcessInterface: Interface class mostly with methods for remote invocation.
+- OperationType: An enum where the read and write types are defined
 
 ##### no.hvl.dat110.util
-- Util: contains various utility methods for obtaining registry or performing conversion.
+- Util: contains various utility methods for obtaining registry or performing conversion. Can be used to get the replica processes.
 
 ##### no.hvl.dat110.clients.test
-Unit test files to test quorum-based protocols using 10 communicating processes
-- TestConcurrentReadWriteConsistency: The unit test verifies the correctness of the quorum implementation when two concurrent processes want to read and write to a copy of their replicated file.
-- TestQuorumAlgorithmFail: The unit test that test the read or write quorum algorithm by manipulating other processes to hold locks to their critical section. The test must fail.
-- TestQuorumAlgorithmPass: The unit test that test the read or write quorum algorithm by manipulating other processes to hold locks to their critical section. The test must pass.
-- TestWriteReadConsistency: A unit test that tests a write and read consistency sequentially.
+Unit test files to test quorum-based protocols using 10 communicating processes (DO NOT CHANGE THE FILES - THEY WILL BE USED TO TEST THE CORRECTNESS OF YOUR IMPLEMENTATION!). 
 
+
+### Getting Started
+
+You should start by cloning the Java code which can be found in the github repository
+
+https://github.com/selabhvl/dat110-project3-startcode.git
+
+which contains an Eclipse-project for both the ChordDHT and Quorum protocol with start-code. In addition, it also contains a number of unit tests which can be used for some basic testing of the implemented functionality. The unit-tests should not be modified/removed as they will be used for evaluation of the submitted solution. DO NOT CHANGE MODIFY/REMOVE THE UNIT-TESTS FILES - THEY WILL BE USED TO EVALUATE YOUR IMPLEMENTATION!
+
+In order for the group to use their own git-repository for the further work on the codebase, one member of the group must create an empty repository on github/bitbucket without a README file and without a `.gitignore` file, and then perform the following operations
+
+`git remote remove origin`
+
+`git remote add origin <url-to-new-empty-repository>`
+
+`git push -u origin master`
+
+The other group members can now clone this new repository and work with a shared repository as usual.
 
 There are three major tasks that you will implement in this project:
 
 #### Task 1 - implement a quorum-based consistency protocol
 
 You should use the QuorumAlgorithm template to implement the algorithm correctly. 
-- implement a quorum-based consistency protocol on the template provided. 
+- Implement a quorum-based consistency protocol on the template provided. 
 - Implement the missing parts in the template (MutexProcess)
 - Use the Unit tests provided to test the correctness of your implementation
 
 
 #### Task 2 - Integrate the Quorum algorithm into the ChordDHT
 
-- Integrate the quorum-based implementation with the chord implementation. 
+- Integrate the quorum-based implementation with the chord implementation. The ideal situation is that a node has a Lock each for the files/resources that it is managing. However, for simplicity sake, the current implementation assumes one lock for all the resources being held by a node. It means that a node can only participate in one voting process.
 
 - The second task requires that you integrate the quorum protocol into the chordDHT system.
 - To do this, you would need to use the MutexInterface which has already been integrated.
@@ -160,9 +172,9 @@ You should use the QuorumAlgorithm template to implement the algorithm correctly
 Your task here is to implement clients that can send a read or write request to the chord ring by contacting any of the active node.
 - Here you need to implement read and write clients that can make request to any active node in the chord ring.
 - Three classes need to be modified
-1 FileManager class
-2 NodeClientReader
-3 NodeClientWriter
+1 FileManager: Implement requestActiveNodesForFile, requestToReadFileFromAnyActiveNode, and requestWriteToFileFromAnyActiveNode methods
+2 NodeClientReader: Implement the sendRequest() method
+3 NodeClientWriter: Implement the sendRequest() method
 - A client would first contact an active node in the ring
 - Send the filename with the request
 - The FileManager generates keyids for the file replicas and resolve each replica from the contacted node.
