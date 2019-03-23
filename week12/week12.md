@@ -53,16 +53,16 @@ When these changes are made, you can then start the chord project on different m
 - NodeInformation: used to print out information about the status of the node (IP, ID, finger table entries, current keys)
 
 ##### no.hvl.dat110.node.client.test
-Various unit-tests 
+- Various unit-tests 
 
 ##### no.hvl.dat110.chordoperations
 This package contains five classes responsible for specific chord protocols: 
 - see: https://github.com/selabhvl/dat110public/tree/master/week7/ChordDHT
-- LeaveRing: runs periodically until the specified sleep time after which it the node leaves the ring. runs periodically and shutdown the node when the specified ttl is reached or program loops forever if loopforever = true
+- LeaveRing: runs periodically until the specified ttl after which the node leaves the ring and or it continues forever if loopforever = true
 
 ##### no.hvl.dat110.file
 - FileManager: contains methods for creating replicas of a file, distributing those replicas among active nodes in the chord ring, and looking up the active nodes responsible for a given file by iteratively resolving the replicaid (hash of replica) from an active node.
-The FileManager can also be run periodically by each chord node to distribute files to new nodes that just joined the ring. (This may not be necessary as stabilize ring protocol 
+The FileManager currently runs periodically by each chord node to allow dynamic distribute of files to new nodes that just joined the ring. 
 
 ##### no.hvl.dat110.rpc
 - ChordNodeContainer: This is the 'server' for the node where the registry is started and where the binding of the remote stub object for the Node is done. In addition, all periodic chord operations are started in this class currently.
@@ -90,7 +90,7 @@ Run the NodeClient class to test that a client can contact an active node and re
 
 ### QuorumAlgorithm project organisation
 
- This project implements the quorum-based protocol. The project uses synchronous rpc communication among the processes. The quorum protocol is a replicated-write protocol where processes vote to gain write or read permission to a replicated resource. Assume a file is replicated N times and distributed on N servers, a process that wants to write to a replica file needs to assemble a write quorum (i.e. majority of N servers must give permission). The same process is observed for a read operation.
+This project implements the quorum-based protocol. The project uses synchronous rpc communication among the processes. The quorum protocol is a replicated-write protocol where processes vote to gain write or read permission to a replicated resource. Assume a file is replicated N times and distributed on N servers, a process that wants to write to a replica file needs to assemble a write quorum (i.e. majority of N servers must give permission). The same process is observed for a read operation.
 
 To prevent read-write and write-write conflicts, the voting algorithm must fulfil two constraints:
 
@@ -121,7 +121,7 @@ The implementation should use the simple method. You are provided with the templ
 - Util: contains various utility methods for obtaining registry or performing conversion. Can be used to get the replica processes.
 
 ##### no.hvl.dat110.clients.test
-Unit test files to test quorum-based protocols using 10 communicating processes. 
+- Unit test files to test quorum-based protocols using 10 communicating processes. 
 
 ### Organisation
 
