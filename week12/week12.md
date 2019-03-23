@@ -37,8 +37,6 @@ To use multi computer simulation requires two slight modifications.
 
 When these changes are made, you can then start the chord project on different machines.
 
-The ChordDHT is provided to you as a complete system that allows you to test reading and writing of requests from any client and to also test the quorum-based consistency protocol. Warning! You'll get many messages in the console when you run each chordNode, you may remove them in the code. In addition, you can create a jar file for each process (1-10) where the main-class is                                                                                                                                           specified as the name of the process. This allows you to launch the chord nodes from an external terminal and provides the flexibility to view only the results of your unit-tests in the IDE.
-
 
 ### ChordDHT Project organisation
 
@@ -59,11 +57,7 @@ Various unit-tests
 
 ##### no.hvl.dat110.chordoperations
 This package contains five classes responsible for specific chord protocols: 
-- StabilizeRing: Checks whether a node P's successor is still valid. If P's successor has predecessor Q which is different from P, then P needs to accept Q as its new successor and Q needs to accept P as its new predecessor (via notifySuccessor)
-- CheckPredecessor: runs periodically and makes a remote call to a node's predecessor and checks whether it's still valid. If call fails, predecessor is removed
-- FixFingerTable: runs periodically to update the finger table for each node.
-- UpdateSuccessor: runs periodically to set the first pointer of the finger table to the correct successor
-- JoinRing: calls once when the node is being created to determine whether to join an existing ring or to start a new ring. It uses initial addresses from the StaticTracker class to determine who and where to join a ring.
+- see: https://github.com/selabhvl/dat110public/tree/master/week7/ChordDHT
 - LeaveRing: runs periodically until the specified sleep time after which it the node leaves the ring. runs periodically and shutdown the node when the specified ttl is reached or program loops forever if loopforever = true
 
 ##### no.hvl.dat110.file
@@ -80,11 +74,17 @@ The FileManager can also be run periodically by each chord node to distribute fi
 - Util: contains various utility methods for obtaining registry or performing conversion.
 
 ### Running the ChordDHT system
-1. Specify one valid IP address (multi-machine setup) or process name (single machine testing) in the StaticTracker class (This process class is expected to be started first to create the ring). You can simply leave the process names as "process1", "process2", "process3", ..., etc.
-2. Specify the ttl value to decide how long the node should be alive. If you want the program to run forever, set the run forever variable to true in the ChordNodeContainer. Or increase the sleep time to make it run longer.
-3. Run the first ChordNodeContainer class (e.g. process1)
-4. Several ChordNodeContainer instances can then be launched. Each must specify addresses of at least one active ChordNodeContainer that is running currently in their StaticTracker class (e.g. "process1", "process2", etc.)
-5. Run the NodeClient class to test that a client can contact an active node and request for a file by resolving the file through the contacted node.
+
+The ChordDHT is provided to you as a complete system that allows you to test reading and writing of requests from any client and to also test the quorum-based consistency protocol. Warning! You'll get many messages in the console when you run each chordNode, you may remove them in the code. 
+- In addition, you can create a jar file for each process (1-10) where the main-class is                                                                                                                                           specified as the name of the process. This allows you to launch the chord nodes from an external terminal and provides the flexibility to view only the results of your unit-tests in the IDE. You can use the chord.sh located here: https://github.com/selabhvl/dat110public/blob/master/week12/chordjars/chord.sh for this purpose. 
+- When you have generated the jar files, run each jar file e.g. $ java -jar chorddht1.jar in a separate terminal. (Note chorddht1.jar must be started first) 
+- If you want to use multiple machines, then make the changes mentioned at the beginning, specify one valid IP address (multi-machine setup) in the StaticTracker class (This process class is expected to be started first to create the ring). Recompile using ChordNodeContainer as the Main Class in the manifest file and generate a new single jar file. Distribute this jar file among the group members.
+On the IDE:
+- Run the first ChordNodeContainer class (e.g. process1)
+- Several ChordNodeContainer instances can then be launched. Each must specify addresses of at least one active ChordNodeContainer that is running currently in their StaticTracker class (e.g. "process1", "process2", etc.)
+
+**Testing that the chord ring works**
+Run the NodeClient class to test that a client can contact an active node and request for a file by resolving the file through the contacted node.
 
 
 
