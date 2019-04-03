@@ -158,6 +158,20 @@ You should use the QuorumAlgorithm template to implement the algorithm correctly
 - Implement the missing parts in the template (MutexProcess)
 - Use the Unit tests provided to test the correctness of your implementation
 
+You will need to touch on the following methods
+##### MutexProcess class
+- public void acquireLock() throws RemoteException
+- public void acquireLock() throws RemoteException
+- public boolean requestWriteOperation(Message message) throws RemoteException
+- public boolean requestReadOperation(Message message) throws RemoteException
+- private boolean multicastMessage(Message message, int n) throws AccessException, RemoteException
+- public Message onMessageReceived(Message message) throws RemoteException
+- public boolean majorityAcknowledged() throws RemoteException
+- public void onReceivedVotersDecision(Message message) throws RemoteException
+- public void onReceivedUpdateOperation(Message message) throws RemoteException
+- public void multicastUpdateOrReadReleaseLockOperation(Message message) throws RemoteException
+- public void multicastVotersDecision(Message message) throws RemoteException
+
 
 #### Task 2 - Integrate the Quorum algorithm into the ChordDHT
 
@@ -166,7 +180,16 @@ You should use the QuorumAlgorithm template to implement the algorithm correctly
 - To do the integration, you would need to use the MutexInterface which has already been integrated.
 - Your task, would then be to fill in the implementations in the missing methods
 - Note that if your previous  implementation of quorum works correctly, it should not be very hard to transfer to the chordDHT (Node) process. Both are very similar.
-- Use the unit tests to verify that you have correctly integrated the quorum protocol with ChordDHT
+- You can verify this task only when you have successfully completed Task 3.
+
+##### Node class:
+- private boolean multicastMessage(Message message) throws AccessException, RemoteException
+- public Message onMessageReceived(Message message) throws RemoteException
+- public boolean majorityAcknowledged() throws RemoteException
+- public void onReceivedVotersDecision(Message message) throws RemoteException
+- public void onReceivedUpdateOperation(Message message) throws RemoteException
+- public void multicastUpdateOrReadReleaseLockOperation(Message message) throws RemoteException
+- public void multicastVotersDecision(Message message) throws RemoteException
 
 
 #### Task 3 - Implement Read and Write clients for the DHT
@@ -183,6 +206,15 @@ Your task here is to implement clients that can send a read or write request to 
 - Use the NodeClientTester and NodeClient as inspiration
 - Test your implementations using the unit tests provided with the chord project.
 
+Below are the methods you need to implement.
+##### NodeClientReader
+- private void sendRequest()
+##### NodeClientWriter
+- private void sendRequest()
+##### FileManager
+- public Set<Message> requestActiveNodesForFile(String filename) throws RemoteException
+- public boolean requestToReadFileFromAnyActiveNode(String filename) throws RemoteException, NotBoundException
+- public boolean requestWriteToFileFromAnyActiveNode(String filename, String newcontent) throws RemoteException, NotBoundException
 
 
 ### Complete ChordDHT with Quorum protocol
