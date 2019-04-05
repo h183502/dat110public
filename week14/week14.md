@@ -57,7 +57,7 @@ Test your design and implementation using simulation in TinkerCAD.
 
 #### Make a finite-state machine model / think before you program
 
-Start the assignment by drawing a [finite state machine](https://en.wikipedia.org/wiki/Finite-state_machine) that shows the states of the system, and the transition that may take place causing the system to change its state. The state machine should be based on the description of the functional requirements above.
+Start the assignment by drawing a [finite state machine](https://en.wikipedia.org/wiki/Finite-state_machine) that shows the states of the system, and the transitions that may take place causing the system to change its state. The state machine should be based on the description of the functional requirements above.
 
 The finite-state machine models and a description of it will also be required for Part C - the project report. The figure can be drawn by hand or using a UML tool.
 
