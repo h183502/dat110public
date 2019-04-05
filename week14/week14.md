@@ -1,4 +1,4 @@
-## Lab Week 14: 1/4 - 5/4
+## Lab Week 14: 8/4 - 12/4
 
 The assignment this week constitute the first part of the mandatory project 4 in the course. Project 4 will be made of of three parts
 
@@ -35,19 +35,25 @@ You will be using the following actuators with digital output
 
 The sensors and actuators is to be controlled by software running in the microprocesser. The software is required to implemented the following behaviour
 
-- The red LED is on when the system is in a LOCKED state. Initially, the system is in the LOCKED.
+- Initially, the system is in the `LOCKED`.
 
-- When motion is detected, the yellow LED will be on; and the system is WAITING for:
+- The red LED is on when the system is in a `LOCKED` state.
+
+- When motion is detected, the yellow LED must be switched on; and the system is in a state `WAITING` for:
 
    - The user to do two pushes on the buttons. After each push, the yellow LED should blink shortly.
 
-   - If the order it correct, then system will become UNLOCKED, and the green LED is on.
+   - If the order it correct, then system will become `UNLOCKED`, and the green LED is switched on.
 
-   - If the order it not correct, the red LED should blink and the system will go back to a LOCKED state
+   - If the order it not correct, the red LED should blink and the system will go back to a `LOCKED` state
 
-After a certain amount of time in the UNLOCKED state, the system should automatically enter the LOCKED state.
+After a certain amount of time in the `UNLOCKED` state, the system should automatically enter the `LOCKED` state.
 
-**Extra:** if the user has not pushed two buttons within a certain amount of time in the WAITING state, then system should go to the LOCKED state.
+To simplify the design, you can just hardcode the correct button order in the software.
+
+Test your design and implementation using simulation in TinkerCAD.
+
+**Extra:** Do some research on Arduino programming and find a solution such that if the user has not pushed two buttons within a certain amount of time in the `WAITING` state, then system should go to the `LOCKED` state.
 
 #### Make a finite-state machine model / think before you program
 
