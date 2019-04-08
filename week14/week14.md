@@ -66,4 +66,4 @@ The finite-state machine models and a description of it will also be required fo
 - Arduino language reference https://www.arduino.cc/reference/en
 - Arduino board layout https://www.arduino.cc/en/Reference/Board   
 - Short demovideo of the input/output example from the lectures https://www.youtube.com/watch?v=1kW8clGpUJQ
-- TinkerCAD design and code for the input/output example presented at the lectures https://www.tinkercad.com/things/ki35AdXHyJz
+- TinkerCAD design and code for the input/output example presented at the lectures https://www.tinkercad.com/things/4dR0jbqYSMT
