@@ -8,10 +8,14 @@ import static spark.Spark.*;
  */
 public class App 
 {
-	public static void main(String[] arg){
+	public static void main(String[] args){
 		
-		port(8080);
-		
+		if (args.length > 0) {
+			port(Integer.parseInt(args[0]));
+		} else {
+			port(8080);
+		}
+		  
         get("/hello", (request, response) -> "Hello World!");
     }
 }
