@@ -1,5 +1,7 @@
 package no.hvl.dat110.rest.counters;
 
+import com.google.gson.Gson;
+
 public class Counters {
 	
 	private int red,green;
@@ -9,6 +11,11 @@ public class Counters {
 		this.green = 0;
 	}
 
+	public Counters (int red, int green) {
+		this.red = red;
+		this.green = green;
+	}
+	
 	public int getRed() {
 		return red;
 	}
@@ -25,4 +32,12 @@ public class Counters {
 		this.green = green;
 	}
 	
+	String toJson () {
+    	
+    	Gson gson = new Gson();
+    	    
+    	String jsonInString = gson.toJson(this);
+    	
+    	return jsonInString;
+    }
 }

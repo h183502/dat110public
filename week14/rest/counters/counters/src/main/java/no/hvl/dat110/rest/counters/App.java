@@ -30,9 +30,9 @@ public class App {
 		
 		get("/hello", (request, response) -> "Hello World!");
 		
-        get("/counters", (req, res) -> CountersToJson());
+        get("/counters", (req, res) -> counters.toJson());
         
-        get("/counters", (req, res) -> CountersToJson());
+        get("/counters", (req, res) -> counters.toJson());
         
         put("/counters", (req,res) -> {
         
@@ -40,17 +40,9 @@ public class App {
         	
         	counters = gson.fromJson(req.body(), Counters.class);
         
-            return CountersToJson();
+            return counters.toJson();
         	
         });
     }
     
-    static String CountersToJson () {
-    	
-    	Gson gson = new Gson();
-    	    
-    	String jsonInString = gson.toJson(counters);
-    	
-    	return jsonInString;
-    }
 }
