@@ -41,6 +41,12 @@ void printWifiStatus() {
   Serial.println(" dBm");
 }
 
+int redcnt = 0;
+int greencnt = 0;
+
+int pushhandled = 0;
+byte debug = 0;
+
 void setup() {
 
   Serial.begin(9600);
@@ -132,10 +138,24 @@ void doGetAws() {
   }
 }
 
+String jsonred = "{\"red\":";
+String jsongreen = ",\"green\":";
+String jsonend = "}";
+
 void doPutAws() {
 
   client.stop();
+
+  String json = jsonred;
   
+  json.concat(redcnt);
+  json.concat(jsongreen);
+  json.concat(greencnt);
+  json.concat("}");
+
+    Serial.println(json);
+    Serial.println(json.length());
+    
   Serial.println("\ndoPutAws - Connecting to server...");
   if (client.connect(awsserver, awsport)) {
     Serial.println("connected to server");
@@ -146,6 +166,8 @@ void doPutAws() {
     client.println("Content-length: 19"); // FIXME
     client.println("Connection: close");
     client.println();
+
+    
     client.println("{\"red\":3,\"green\":4}"); // FIXME
     client.println();
     //client.println("Host: localhost");
