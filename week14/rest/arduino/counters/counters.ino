@@ -6,14 +6,12 @@
 char ssid[] = "HUAWEI_TIT-L01_1270"; //  your network SSID (name)
 char pass[] = "8c724f99";    // your network password (use for WPA, or use as key for WEP)
 
-// example.com
-
+// example.com - for debugging purposes
 IPAddress server(93, 184, 216, 34);
 //char server[] = "www.example.com";
 int port = 80;
 
-// aws service
-
+// aws counters REST service
 IPAddress awsserver(3, 19, 66, 128);
 //char server[] = "www.example.com";
 int awsport = 8081;
@@ -46,6 +44,14 @@ int greencnt = 0;
 
 int pushhandled = 0;
 byte debug = 0;
+
+void printcnts () {
+  Serial.print(redcnt);
+  Serial.print(":");
+  Serial.print(greencnt);
+  Serial.println();
+}
+
 
 void blink (int n) {
 
@@ -111,9 +117,6 @@ void setup() {
   }
 }
 
-
-int c = 0;
-
 void loop() {
 
   while (client.available()) {
@@ -133,43 +136,42 @@ void loop() {
   }
 
   if ((resetbtn == HIGH) && (!pushhandled)) {
-    Serial.println("RESET");
+    Serial.println("\nRESET");
     redcnt = 0;
     greencnt = 0;
+    printcnts (); 
     blink(10);
     pushhandled = 1;
   }
 
   if ((redbtn == HIGH) && (!pushhandled)) {
-    Serial.println("RED");
+    Serial.println("\nRED");
     redcnt++;
+    printcnts (); 
     blink(2);
     pushhandled = 1;
   }
 
   if ((greenbtn == HIGH) && (!pushhandled)) {
-    Serial.println("GREEN");
+    Serial.println("\nGREEN");
     greencnt++;
+    printcnts (); 
     blink(2);
     pushhandled = 1;
   }
 
   if ((sendbtn == HIGH) && (!pushhandled)) {
-    Serial.println("SEND");
+    Serial.println("\nSEND");
     digitalWrite(8, LOW);
-    
+
     if (state == CONNECTED) {
-       doPutAws();
-       delay(5000);
+      doPutAws();
+      delay(5000);
     }
-    
+
     pushhandled = 1;
     digitalWrite(8, HIGH);
   }
-
-  // if there are incoming bytes available
-  // from the server, read them and print them:
-
 
   // if the server's disconnected, stop the client:
   // if (!client.connected()) {
@@ -207,7 +209,6 @@ void doPutAws() {
 
   String json = jsonred;
   String clen = "Content-length: ";
-  //redcnt++;
 
   json.concat(redcnt);
   json.concat(jsongreen);
@@ -223,19 +224,17 @@ void doPutAws() {
   Serial.println("\ndoPutAws - Connecting to server...");
   if (client.connect(awsserver, awsport)) {
     Serial.println("connected to server");
+
     // Make a HTTP request:
     client.println("PUT /counters HTTP/1.1");
     client.println("Host: ec2-3-19-66-128.us-east-2.compute.amazonaws.com");
     client.println("Content-type: application/json");
-    //client.println("Content-length: 19"); // FIXME
     client.println(clen); // FIXME
     client.println("Connection: close");
     client.println();
 
-    //client.println("{\"red\":3,\"green\":4}"); // FIXME
     client.println(json);
     client.println();
-    //client.println("Host: localhost");
 
     client.println();
   } else {
