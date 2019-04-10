@@ -147,14 +147,19 @@ void doPutAws() {
   client.stop();
 
   String json = jsonred;
+  String clen = "Content-length: ";
+  redcnt++;
   
   json.concat(redcnt);
   json.concat(jsongreen);
   json.concat(greencnt);
   json.concat("}");
-
+  clen.concat(json.length());
+  
+    Serial.println("JSON");
     Serial.println(json);
-    Serial.println(json.length());
+    Serial.println("CLEN");
+    Serial.println(clen);
     
   Serial.println("\ndoPutAws - Connecting to server...");
   if (client.connect(awsserver, awsport)) {
@@ -163,12 +168,13 @@ void doPutAws() {
     client.println("PUT /counters HTTP/1.1");
     client.println("Host: ec2-3-19-66-128.us-east-2.compute.amazonaws.com");
     client.println("Content-type: application/json");
-    client.println("Content-length: 19"); // FIXME
+    //client.println("Content-length: 19"); // FIXME
+    client.println(clen); // FIXME
     client.println("Connection: close");
     client.println();
-
     
-    client.println("{\"red\":3,\"green\":4}"); // FIXME
+    //client.println("{\"red\":3,\"green\":4}"); // FIXME
+    client.println(json); 
     client.println();
     //client.println("Host: localhost");
     
