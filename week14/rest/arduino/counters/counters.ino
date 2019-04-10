@@ -96,7 +96,7 @@ void loop() {
       Serial.write(c);
     }
     
-    if ((c < 1) && (state == CONNECTED)) {
+    if ((c < 3) && (state == CONNECTED)) {
       doPutAws();
       delay(5000);
       c++;
