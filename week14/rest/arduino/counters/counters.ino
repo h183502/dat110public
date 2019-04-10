@@ -77,6 +77,13 @@ void setup() {
   } else {
     Serial.println("Not connected to wifi");
   }
+
+  if (state == CONNECTED) {
+    // doGet();
+    // delay(5000);
+    doGetAws();
+    delay(5000);
+  }
 }
 
 
@@ -84,18 +91,20 @@ int c = 0;
 
 void loop() {
 
-    if ((c < 2) && (state == CONNECTED)) {
-      doGetAws();
+    while (client.available()) {
+      char c = client.read();
+      Serial.write(c);
+    }
+    
+    if ((c < 1) && (state == CONNECTED)) {
+      doPutAws();
       delay(5000);
       c++;
     }
 
      // if there are incoming bytes available
   // from the server, read them and print them:
-  while (client.available()) {
-    char c = client.read();
-    Serial.write(c);
-  }
+  
 
   // if the server's disconnected, stop the client:
   // if (!client.connected()) {
@@ -108,7 +117,7 @@ void doGetAws() {
 
   client.stop();
   
-  Serial.println("\ndoGet - Connecting to server...");
+  Serial.println("\ndoGetAws - Connecting to server...");
   if (client.connect(awsserver, awsport)) {
     Serial.println("connected to server");
     // Make a HTTP request:
@@ -123,6 +132,29 @@ void doGetAws() {
   }
 }
 
+void doPutAws() {
+
+  client.stop();
+  
+  Serial.println("\ndoPutAws - Connecting to server...");
+  if (client.connect(awsserver, awsport)) {
+    Serial.println("connected to server");
+    // Make a HTTP request:
+    client.println("PUT /counters HTTP/1.1");
+    client.println("Host: ec2-3-19-66-128.us-east-2.compute.amazonaws.com");
+    client.println("Content-type: application/json");
+    client.println("Content-length: 19"); // FIXME
+    client.println("Connection: close");
+    client.println();
+    client.println("{\"red\":3,\"green\":4}"); // FIXME
+    client.println();
+    //client.println("Host: localhost");
+    
+    client.println();
+  } else {
+    Serial.println("Unable to connect to server");
+  }
+}
 void doGet() {
 
   client.stop();
