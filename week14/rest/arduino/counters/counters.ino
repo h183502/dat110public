@@ -8,13 +8,13 @@ char pass[] = "8c724f99";    // your network password (use for WPA, or use as ke
 
 // example.com
 
-IPAddress server(93,184,216,34);
+IPAddress server(93, 184, 216, 34);
 //char server[] = "www.example.com";
 int port = 80;
 
 // aws service
 
-IPAddress awsserver(3,19,66,128);
+IPAddress awsserver(3, 19, 66, 128);
 //char server[] = "www.example.com";
 int awsport = 8081;
 
@@ -47,9 +47,27 @@ int greencnt = 0;
 int pushhandled = 0;
 byte debug = 0;
 
+void blink (int n) {
+
+  for (int i = 0; i < n; i++) {
+
+    digitalWrite(8, LOW);
+    delay(250);
+    digitalWrite(8, HIGH);
+    delay(250);
+  }
+
+}
 void setup() {
 
   Serial.begin(9600);
+  pinMode(8, OUTPUT);
+  pinMode(9, INPUT);
+  pinMode(6, INPUT);
+  pinMode(5, INPUT);
+  pinMode(3, INPUT);
+
+  blink(10);
 
   // check for the presence of the shield:
   if (WiFi.status() == WL_NO_SHIELD) {
@@ -64,7 +82,7 @@ void setup() {
 
   int i = 0;
   while ((status != WL_CONNECTED) && (i < 3)) {
-    
+
     Serial.print("Connecting to SSID [");
     Serial.print(i);
     Serial.print("] ");
@@ -84,6 +102,7 @@ void setup() {
     Serial.println("Not connected to wifi");
   }
 
+  blink(10);
   if (state == CONNECTED) {
     // doGet();
     // delay(5000);
@@ -97,20 +116,60 @@ int c = 0;
 
 void loop() {
 
-    while (client.available()) {
-      char c = client.read();
-      Serial.write(c);
+  while (client.available()) {
+    char c = client.read();
+    Serial.write(c);
+  }
+
+  int resetbtn = digitalRead(9);
+  int redbtn = digitalRead(6);
+  int greenbtn = digitalRead(5);
+  int sendbtn = digitalRead(3);
+
+  if ((resetbtn == LOW) && (redbtn == LOW) &&
+      (greenbtn == LOW) && (sendbtn == LOW)) {
+
+    pushhandled = 0;
+  }
+
+  if ((resetbtn == HIGH) && (!pushhandled)) {
+    Serial.println("RESET");
+    redcnt = 0;
+    greencnt = 0;
+    blink(10);
+    pushhandled = 1;
+  }
+
+  if ((redbtn == HIGH) && (!pushhandled)) {
+    Serial.println("RED");
+    redcnt++;
+    blink(2);
+    pushhandled = 1;
+  }
+
+  if ((greenbtn == HIGH) && (!pushhandled)) {
+    Serial.println("GREEN");
+    greencnt++;
+    blink(2);
+    pushhandled = 1;
+  }
+
+  if ((sendbtn == HIGH) && (!pushhandled)) {
+    Serial.println("SEND");
+    digitalWrite(8, LOW);
+    
+    if (state == CONNECTED) {
+       doPutAws();
+       delay(5000);
     }
     
-    if ((c < 3) && (state == CONNECTED)) {
-      doPutAws();
-      delay(5000);
-      c++;
-    }
+    pushhandled = 1;
+    digitalWrite(8, HIGH);
+  }
 
-     // if there are incoming bytes available
+  // if there are incoming bytes available
   // from the server, read them and print them:
-  
+
 
   // if the server's disconnected, stop the client:
   // if (!client.connected()) {
@@ -122,7 +181,7 @@ void loop() {
 void doGetAws() {
 
   client.stop();
-  
+
   Serial.println("\ndoGetAws - Connecting to server...");
   if (client.connect(awsserver, awsport)) {
     Serial.println("connected to server");
@@ -148,19 +207,19 @@ void doPutAws() {
 
   String json = jsonred;
   String clen = "Content-length: ";
-  redcnt++;
-  
+  //redcnt++;
+
   json.concat(redcnt);
   json.concat(jsongreen);
   json.concat(greencnt);
   json.concat("}");
   clen.concat(json.length());
-  
-    Serial.println("JSON");
-    Serial.println(json);
-    Serial.println("CLEN");
-    Serial.println(clen);
-    
+
+  Serial.println("JSON");
+  Serial.println(json);
+  Serial.println("CLEN");
+  Serial.println(clen);
+
   Serial.println("\ndoPutAws - Connecting to server...");
   if (client.connect(awsserver, awsport)) {
     Serial.println("connected to server");
@@ -172,12 +231,12 @@ void doPutAws() {
     client.println(clen); // FIXME
     client.println("Connection: close");
     client.println();
-    
+
     //client.println("{\"red\":3,\"green\":4}"); // FIXME
-    client.println(json); 
+    client.println(json);
     client.println();
     //client.println("Host: localhost");
-    
+
     client.println();
   } else {
     Serial.println("Unable to connect to server");
@@ -186,7 +245,7 @@ void doPutAws() {
 void doGet() {
 
   client.stop();
-  
+
   Serial.println("\ndoGet - Connecting to server...");
   if (client.connect(server, port)) {
     Serial.println("connected to server");
