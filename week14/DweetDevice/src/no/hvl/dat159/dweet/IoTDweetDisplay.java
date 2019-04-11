@@ -6,7 +6,7 @@ public class IoTDweetDisplay {
 
 		try {
 
-			Display display = new Display();
+			DisplayActuator display = new DisplayActuator();
 
 			DweetClient client = new DweetClient();
 

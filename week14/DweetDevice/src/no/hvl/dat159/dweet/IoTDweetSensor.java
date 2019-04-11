@@ -1,6 +1,6 @@
 package no.hvl.dat159.dweet;
 
-public class IoTDweetThing {
+public class IoTDweetSensor {
 
 	public static void main(String[] args) {
 
@@ -16,7 +16,7 @@ public class IoTDweetThing {
 
 				System.out.print("!");
 				
-				if (client.publish(temp)) {
+				if (client.post(temp)) {
 					System.out.println(temp);
 				} else
 					System.out.println("FAIL");

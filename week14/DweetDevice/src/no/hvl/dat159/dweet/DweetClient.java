@@ -5,11 +5,8 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -25,25 +22,22 @@ public class DweetClient {
 				
 	}
 	
-	public boolean publish(int temperature) throws IOException {
+	public boolean post(int temperature) throws IOException {
 		
 		JsonObject content = new JsonObject();
 		
 		content.addProperty("Temperature", temperature);
-				
-		thingName = URLEncoder.encode(thingName, "UTF-8");
-		
+						
 		URL url = new URL("http" + "://" + API_DWEET_END_POINT + "/dweet/for/" + thingName);
 				
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		
-		connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+		connection.setRequestProperty("Content-Type", "application/json");
 		connection.setRequestMethod("POST");
 		connection.setDoInput(true);
 		connection.setDoOutput(true);
 		
 		PrintWriter out = new PrintWriter(connection.getOutputStream());
-		
 		out.println(content.toString());
 		
 		out.flush();
@@ -59,14 +53,11 @@ public class DweetClient {
 	public String get() throws IOException {
 		
 		// http://dweet.io/get/latest/dweet/for/dat110-sensor
-					
-		thingName = URLEncoder.encode(thingName, "UTF-8");
-		
+							
 		URL url = new URL("http" + "://" + API_DWEET_END_POINT + "/get/latest/dweet/for/" + thingName);
 				
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		
-		connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 		connection.setRequestProperty("Accept", "application/json");
 		connection.setRequestMethod("GET");
 		connection.setDoInput(true);

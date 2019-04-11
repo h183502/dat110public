@@ -6,6 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="gson-2.8.5.jar"/>
+	<classpathentry kind="lib" path="/Users/hib/git/dat110public/week14/DweetDevice/gson-2.8.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
