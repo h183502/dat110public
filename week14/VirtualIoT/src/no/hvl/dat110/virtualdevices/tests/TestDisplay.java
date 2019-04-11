@@ -4,14 +4,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import no.hvl.dat110virtualdevices.Display;
+import no.hvl.dat110virtualdevices.DisplayActuator;
 
 class TestDisplay {
 
 	@Test
 	void test() {
 		
-		Display display = new Display();
+		DisplayActuator display = new DisplayActuator();
 		
 		display.write("TEST MESSAGE");
 	}

@@ -11,7 +11,7 @@ public class IoTDisplayActuator {
 
 		try {
 
-			Display display = new Display();
+			DisplayActuator display = new DisplayActuator();
 
 			receiver = new UDPReceiver();
 
