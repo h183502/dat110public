@@ -14,7 +14,7 @@ This part is to be solved using the TinkerCAD: https://www.tinkercad.com/ simula
 
 You will be using the following *sensors* with digital input
 
-- A passive infrared-sensor (PID) for detecting the approach of a person (motion)
+- A passive infrared-sensor (PIR) for detecting the approach of a person (motion)
 
 ![](assets/markdown-img-paste-20181028082134355.png)
 
