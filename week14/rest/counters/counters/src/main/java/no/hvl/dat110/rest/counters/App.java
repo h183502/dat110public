@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 public class App {
 	
 	static Counters counters = null;
+	
 	public static void main(String[] args) {
 
 		if (args.length > 0) {
@@ -28,12 +29,10 @@ public class App {
   		  res.type("application/json");
   		});
 		
-		get("/hello", (request, response) -> "Hello World!");
+		get("/hello", (req, res) -> "Hello World!");
 		
         get("/counters", (req, res) -> counters.toJson());
-        
-        get("/counters", (req, res) -> counters.toJson());
-        
+               
         put("/counters", (req,res) -> {
         
         	Gson gson = new Gson();
