@@ -3,8 +3,8 @@
 #include <SPI.h>
 #include <WiFi.h>
 
-char ssid[] = "HUAWEI_TIT-L01_1270"; //  your network SSID (name)
-char pass[] = "8c724f99";    // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "xxx"; //  your network SSID (name)
+char pass[] = "xxx";    // your network password (use for WPA, or use as key for WEP)
 
 // example.com - for debugging purposes
 IPAddress server(93, 184, 216, 34);
