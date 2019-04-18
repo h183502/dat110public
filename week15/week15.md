@@ -1,42 +1,42 @@
-## Lab Week 15: 23/4 - 16/4
+## Lab Week 15: 23/4 - 26/4
 
-The assignment this week constitute the second part of the mandatory project 4 in the course. Project 4 consists of the following parts
+The lab this week is constitute the second part of the mandatory project 4 in the course. Project 4 consists of the following parts
 
 - Part A: Hardware/software co-design of an access control device (lab week 14: https://github.com/selabhvl/dat110public/blob/master/week14/week14.md)
-- Part B: Connecting IoT devices to the cloud (this lab)
+- Part B: Connecting IoT devices to the cloud (this lab / week)
 - Part C: Writing a 5-page report on Parts A and B (course week 16)
 
 ### Project 4 - Part A
 
-In this part you will be connecting your access control device from Part A to the cloud. In part A you implemented the control part of the access control device using the TinkerCAD: https://www.tinkercad.com/ simulator.
+In this part you will be connecting your access control device from Part A to the cloud.
 
-As TinkerCAD does not provide support for connecting the circuit design to the Internet and as  we do not have sufficient physical Arduino-devices with network cards available for use, you will be provided with a virtual access control device implemented using Java.
+In part A you implemented the control part of the access control device using the TinkerCAD: https://www.tinkercad.com/ simulator. As TinkerCAD does not provide support for connecting the circuit design to the Internet, and as we do not have sufficient physical Arduino devices with network cards available for use, you will be provided with a virtual access control device implemented using Java.
 
-You are then required to implement the network part of the virtual access control device which will use the HTTP protocol to connect to a REST-based cloud service implementing using the [Spark/Java micro-service framework](http://sparkjava.com). At the end of the you should have a completed IoT-cloud system solution in which the access control IoT device is connected to a cloud service that makes it possible to track when the system has been locked/unlocked and also change the access code.
+You are then required to implement the network part of the virtual access control device which will use the HTTP protocol to connect to a REST-based cloud service implementing using the [Spark/Java micro-service framework](http://sparkjava.com). At the end of the you should have a completed IoT-cloud system solution in which the IoT access control device is connected to a cloud service that makes it possible to track when the system has been locked/unlocked and also change the current access code.
 
-The principles that you will apply to develop your IoT-cloud solution similar to what was demonstrated in the lectures in IoT using the red-green counters examples.
+The principles that you will apply to develop your IoT-cloud solution is similar to what was demonstrated in the lectures on IoT by means of the red-green counters examples.
 
 ### Security and Storage
 
-In a complete implementation of the system, we would also make sure that the cloud service is secure by:
+In a completed implementation of the system, we would also ensure that the service is secure by means of
 
-- confidentiality using transport layer security to encrypt the communication between the IoT device and the cloud service
+- *confidentiality* using transport layer security to encrypt the communication between the IoT access control device and the cloud service
 
-- authentication by making sure that only authenticated software could access the cloud service
+- *authentication* such that only authenticated software could access the cloud service
 
-- authorisation by making sure that only an owner could retrieve the access log and that only an administrator would be able to make modification to the access codes.
+- *authorisation* such that only an owner could retrieve the access log and such that only an administrator would be able to change the access code.
 
-As we have not yet covered security in the course, we will omit this for now. Once you have learned about security you are encouraged to revisit your implementation and implement security.
+As we have not yet covered security in the course, we will omit this for now. Once you have learned about security, you are encouraged to revisit your implementation and implement security mechanism as outlined above.
 
-In a complete implementation, the cloud service would also use a database for storing the information such that it is made persistent across starts and stops of the service. For this project, we will simply stored the information in memory so be aware that information will be lost between restarts.
+In a complete implementation, the cloud service would also use a database for storing the information such that it becomes persistent across starts and stops of the service. It would also implement fault-tolerance such that the access log was updated even if the acccess control device may have been without network connectivity for a while. For this project, we will simply stored the information in memory so be aware that information will be lost between restarts.
 
 ### Step 1: Virtual Access Control Device
 
-The implementation of the sensor-actuator control for the access device can be found in the following Eclipse-project:
+The implementation of the sensor-actuator control for the access control device can be found in the following Eclipse-project:
 
-TODO: LINK
+**TODO** ADD LINK
 
-The project implements a virtual access control device with the same functionality as in Part A of project 4. The project is organised into the following packages:
+The project implements a virtual access control device with similar as in Part A. The project is organised into the following packages:
 
 - `no.hvl.dat110.aciotdevice.main` contains the main-method for the virtual device.
 
@@ -46,29 +46,33 @@ The project implements a virtual access control device with the same functionali
 
 - `no.hvl.dat110.aciotdevice.controller` implements the control-loop of the virtual device.
 
-- `no.hvl.dat110.aciotdevice.client` is to contain the implementation of the network part of the virtual device acting as a client (consumer) of the REST-based cloud service.
+- `no.hvl.dat110.aciotdevice.client` will contain the implementation of the network part of the virtual device acting as a client (consumer) of the REST-based cloud service. This part is to be implemented in Step 4 below.
 
 Running the main-method in the `Main.java` should result in the following window where you can interact with the PIR-sensor and also push the button labelled `1` and `2`. The green, yellow, and red LEDs are represented by the accordingly coloured boxes.
 
-The only difference compared to Project 4 - part A is that the device has an extra button and a blue led. The extra button and led is to be used when connecting the device to the cloud service (TODO).
+The only difference compared to Part A is that the device has an extra button labelled `N` and a blue LED. The extra button can be pressed in order to put the device into network mode in which case the blue LED will be turned on.
 
-The implementation of the logic for controlling the sensors and actuators can be found in the `AccessController.java` class and follows the same reactive programming model as on teh Arduino-device. This means that the `setup`-method is executed once at startup and the `loop`-method is continiously executed.
+![](img/ui.png)
 
-The `AccessController` class implements one possible solution for project 4 - Part A. Of you want you can replace the implementation with your own implementation. Few changes to the C/C++ code should be required in order to make it run under Java.
+The implementation of the logic for controlling the sensors and actuators can be found in the `AccessController.java` class. It follows the same reactive programming model as on the Arduino-device. This means that the `setup`-method is executed once at startup, and the `loop`-method is continiously executed.
+
+The `AccessController.java` class implements one possible solution for Part A. If you want, you can replace the implementation with your own implementation from Part A. Few changes to the C/C++ code should be required in order to make it run under Java.
 
 ### Step 2: Cloud service and REST API.
 
-In this step you will be implementing the cloud service that the access control device can by providing a REST API implemented using the [Spark/Java micro-service framework](http://sparkjava.com).
+In this step you will be implementing the cloud service that the access control device can use by providing a REST API implemented using the [Spark/Java micro-service framework](http://sparkjava.com).
 
 The Eclipse-project available via:
 
-TODO
+**TODO** ADD LINK
 
-provides the basic setup required to implement the service. It is organised as a Maven-project in order to automatically download externally libraries required. The Java source code is available in the `src/main/java` folder.
+provides the basic setup required to implement the service. It is organised as a [Maven-project](https://maven.apache.org) in order to automatically download the externally libraries required. The externa dependencies are declared in the `pom.xml` file. The Java source code is available in the `src/main/java` folder.
 
-The `main-method` of the service is in the `App.java` class.
+Start by testing that you are able to run the server for the REST service locally on your machine:
 
-- Running the main-method will start the REST service.
+- The `main-method` of the service is in the `App.java` class
+
+- Run the main-method which will start the server and the basic REST service.
 
 - Point your browser to the following URL
 
@@ -76,21 +80,21 @@ The `main-method` of the service is in the `App.java` class.
 http://localhost:8080/hello
 ```
 
-and you should see `"IoT Access Control Device"` in the browser window as a result of having executed the HTTP GET request on the service.
+and you should see `"IoT Access Control Device"` in the browser window as a result of having executed the HTTP GET request in the browser.
 
-As a next step you are to implement the operations to be supported by the cloud-service. The cloud-service should make it possible to for the access control device to register an access attempt and to obtain a new access (pin) code for entry. Furthermore, the cloud-service should make it possible to change the pin-code for entry.  
+As a next step you are to implement the operations to be supported by the cloud-service. The cloud-service should make it possible to for the access control device to register attempt to access the system by registering this in an access log. Furthermore, the cloud-service should make it possible to change the access code entry and the access control device should be able to retreive the current access code.    
 
 Specifically, the following HTTP operations should be supported:
 
-- `POST /accessdevice/log/` should record an attempt to entry by registering the time and also with entry was successfull (device became unlocked) or failed. The access attempts should be collected in memory in an `ArrayList` and each access attempt should have a unique identifier. The time and status should be contained as JSON in the body of the request.
+- `POST /accessdevice/log/` should record an access attempt by registering the log-message in JSON format which is to be contained in the body of the HTTP request.  The access attempts should be collected in memory and each log message should be given a unique identifier. You may use a [Concurrent HashMap](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html)  for storing the log-messages received from the device and an [Atomic Integer](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicInteger.html) for keeping track of the identifier. The hash-map should use the identifier as the key for the log-message.
 
-- `GET /accessdevice/log/` should return a JSON-representation of all access attempts to the system.
+- `GET /accessdevice/log/` should return a JSON-representation of all access log entries in the system.
 
 - `GET /accessdevice/log/{id}` should return a JSON representation of the access entry identified by {id}. TODO: check spark documentation
 
-- `PUT /accessdevice/pin` should update the access code stored in the server to a new combination of the `1` and `2` buttons. The new access code is to be contained in JSON in the body of the request.
+- `PUT /accessdevice/code` should update the access code stored in the server to a new combination of the `1` and `2` buttons. The new access code is to be contained in JSON in the body of the request.
 
-- `GET /accessdevice/pin` should return a JSON-representation of the current access code stored in the server. This is what the access device will used in order to update the access code.
+- `GET /accessdevice/code` should return a JSON-representation of the current access code stored in the server. This is what the access device will used in order to update the access code.
 
 In order to implement the above API you will have to use the primitives available in the Spark/Java framework. The documentation is available here:
 
