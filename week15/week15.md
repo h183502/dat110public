@@ -181,7 +181,7 @@ The implementation of the network communication is to be provided in the `RestCl
 
 - ```public void doPostAccessLogEntry (String message)``` which is to issue a HTTP POST request on the service in order to add a log access entry for the message. This method will be called from the loop-function in the `AccessController.java` class if access is denied in the `CHECKING` state and when the system becomes `UNLOCKED` and `LOCKED`.  
 
-Both of the methods should establish a connection to the cloud-service and issue the appropriate HTTP GET and HTTP POST requests, i.e.., following the format for HTTP request messages which can be found on pages X and Y in the networking book.
+Both of the methods should establish a connection to the cloud-service and issue the appropriate HTTP GET and HTTP POST requests, i.e.., following the format for HTTP request messages which can be found on pages 133 and 135 in the networking book.
 
 The code from the IoT lectures illustrating construction of HTTP requests can be found via:
 
