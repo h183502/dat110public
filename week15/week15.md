@@ -1,6 +1,6 @@
 ## Lab Week 15: 23/4 - 26/4
 
-The lab this week is constitute the second part of the mandatory project 4.
+The lab this week constitute the second part of the mandatory project 4.
 
 Project 4 consists of the following parts
 
@@ -60,7 +60,7 @@ The implementation of the logic for controlling the sensors and actuators can be
 
 The `AccessController.java` class implements one possible solution for Part A. If you want, you can replace/integrate the implementation with your own implementation from Part A. Few changes to the C/C++ code should be required in order to make it run under Java.
 
-### Step 2: Cloud service and REST API.
+### Step 2: Cloud service and REST API
 
 In this step you will implement the cloud service that the access control device can use by providing a REST API implemented using the [Spark/Java micro-service framework](http://sparkjava.com).
 
