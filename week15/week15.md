@@ -36,7 +36,7 @@ In a complete implementation, the cloud service would also use a database for st
 
 The implementation of the sensor-actuator control for the access control device can be found in the following Eclipse-project:
 
-**TODO** ADD LINK
+https://github.com/selabhvl/dat110-project4-startcode-iotdevice.git
 
 The project implements a virtual access control device with similar to what was to be completed in Part A. The project is organised into the following packages:
 
@@ -64,9 +64,9 @@ The `AccessController.java` class implements one possible solution for Part A. I
 
 In this step you will implement the cloud service that the access control device can use by providing a REST API implemented using the [Spark/Java micro-service framework](http://sparkjava.com).
 
-The Eclipse-project available via:
+The Eclipse-project that is to be used as a starting point is available via:
 
-**TODO** ADD LINK
+https://github.com/selabhvl/dat110-project4-startcode-cloudservice.git
 
 provides the basic setup required to implement the service. It is organised as a [Maven-project](https://maven.apache.org) in order to automatically download the externally libraries required. The external dependencies are declared in the `pom.xml` file.
 
@@ -76,7 +76,7 @@ Start by testing that you are able to run the REST service server locally on you
 
 - Run the `main-method` of the service in the `App.java` class which will start the server a basic REST service.
 
-- Point your browser to the following URL: ```http://localhost:8080/hello```
+- Point your browser to the following URL: http://localhost:8080/accessdevice/hello
 
 and you should see text `"IoT Access Control Device"` in the browser window as a result of having executed the HTTP GET request in the browser.
 
@@ -138,6 +138,8 @@ Specifically, the following HTTP operations should be supported:
  and in the body of the response it should return the exact same JSON-object.
 
 - `GET /accessdevice/code` should return a JSON-representation of the current access code stored in the server. This is what the access device will used in order to update the access code.
+
+- `DELETE /accessdevice/log/` should delete all entries in the access log and a return a JSON-representation of the empty access log in the body of the HTTP response.
 
 In order to implement the above API you will have to use the primitives available in the Spark/Java framework. The documentation is available here:
 
