@@ -1,47 +1,66 @@
 package no.hvl.dat110.rest.counters;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class TCPGetRequest {
 
 	private static int port = 8080;
-    private static String host = "localhost";
-    private static String uri = "/counters";
-    
+	private static String host = "localhost";
+	private static String uri = "/counters";
+
 	public static void main(String[] args) {
 
 		try (Socket s = new Socket(host, port)) {
-         
-         OutputStream output = s.getOutputStream();
-         // no auto-flushing
-         
-         PrintWriter pw = new PrintWriter(output, false);
-         
-         pw.print("GET " + uri + " HTTP/1.1\r\n");
-         pw.print("Accept: application/json\r\n");
-         pw.print("Host: localhost\r\n");
-         pw.print("\r\n");
-         pw.flush();
-         
-         InputStream in = s.getInputStream();
-         InputStreamReader isr = new InputStreamReader(in);
-         BufferedReader br = new BufferedReader(isr);
-         
-         int c;
-         while ((c = br.read()) != -1) {
-           System.out.print((char) c);
-         }
-		}
-		catch (IOException ex) {
-        System.err.println(ex);
-      }
 
-    }
+			// construct the GET request
+			String httpgetrequest = "GET " + uri + " HTTP/1.1\r\n" + "Accept: application/json\r\n"
+					+ "Host: localhost\r\n" + "Connection: close\r\n" + "\r\n";
+
+			// sent the HTTP request
+			OutputStream output = s.getOutputStream();
+
+			PrintWriter pw = new PrintWriter(output, false);
+
+			pw.print(httpgetrequest);
+			pw.flush();
+
+			// read the HTTP response
+			InputStream in = s.getInputStream();
+
+			Scanner scan = new Scanner(in);
+			StringBuilder jsonresponse = new StringBuilder();
+			boolean header = true;
+
+			while (scan.hasNext()) {
+
+				String nextline = scan.nextLine();
+
+				if (header) {
+					System.out.println(nextline);
+				} else {
+					jsonresponse.append(nextline);
+				}
+
+				// simplified approach to identifying start of body: the empty line
+				if (nextline.isEmpty()) {
+					header = false;
+				}
+
+			}
+
+			System.out.println("BODY:");
+			System.out.println(jsonresponse.toString());
+
+			scan.close();
+
+		} catch (IOException ex) {
+			System.err.println(ex);
+		}
+
+	}
 }
