@@ -8,8 +8,8 @@ One part of the exam will be multiple-choice questions similar to the weekly qui
 
 ### Distributed Systems Part
 
-Example tasks for the distributed systems part:
+Example tasks for the distributed systems part: https://github.com/selabhvl/dat110public/blob/master/exam/ds-samples.md
 
 ### Networking Part
 
-Example tasks for the networking part:
+Example tasks for the networking part: https://github.com/selabhvl/dat110public/blob/master/exam/nw-samples.md
