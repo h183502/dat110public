@@ -1,6 +1,7 @@
 ### Oppgave 1 - Processes and Communication
 
 Differentiate between the following:
+
 a. Persistent and transient communication
 
 b. Synchronous and asynchronous communication
@@ -21,11 +22,11 @@ Each server replica maintains five finger table entries.
 
 Use this figure to answer the questions below:
 
-(1) Compute the finger table for each replica
-(2) What is the address size for this ring?
-(3) Resolve key = 10 from server replica 26 (show your steps)
-(4) Resolve key = 5 from server replica 4 (show your steps)
-(5) Which server replicas are responsible for the keys = 0, 4, 15, 16, 24, 26, and 30? (show the formula you used)
+1. Compute the finger table for each replica
+2. What is the address size for this ring?
+3. Resolve key = 10 from server replica 26 (show your steps)
+4. Resolve key = 5 from server replica 4 (show your steps)
+5. Which server replicas are responsible for the keys = 0, 4, 15, 16, 24, 26, and 30? (show the formula you used)
 
 
 ### Oppgave 3 - Communication
@@ -35,13 +36,13 @@ Use this figure to answer the questions below:
 An overlay network is formed by 5 processes to be used to multicast messages as shown in the above figure. Process C is at the root of the multicast tree.
 The delays between the routers for the physical network are given. Use this figure to answer the following questions
 
-(1) What is the delay in the overlay network when a message is multicast from C to D?
-(2) What is the delay in the overlay network when a message is multicast from C to E?
-(3) Compute the stretch/relative delay penalty (RDP) when a message is multicast from C to E provided that
+1. What is the delay in the overlay network when a message is multicast from C to D?
+2. What is the delay in the overlay network when a message is multicast from C to E?
+3. Compute the stretch/relative delay penalty (RDP) when a message is multicast from C to E provided that
 the best path (least-cost) will be used by the underlying physical routers to route message from C to E
-(4) if the tree is modified such that path A -> D is removed and a new path A -> E is created 
+4. if the tree is modified such that path A -> D is removed and a new path A -> E is created 
 resulting in a new path for the tree as: C -> B -> A -> E -> D. Compute the relative delay penalty to route message from C to E.
-(5) Based on your calculations in (3) and (4), which tree would be more efficient to route a message from C to E? Explain your answer.
+5. Based on your calculations in (3) and (4), which tree would be more efficient to route a message from C to E? Explain your answer.
 
 ### Oppgave 4 - Replication and Consistency
 
@@ -70,10 +71,13 @@ Discuss the cryptography schemes that can be used to provide confidentiality, in
 
 ### Oppgave 8 - Cloud Computing
 
-Explain the following cloud service models
-(a) Infrastructure as a service
-(b) Platform as a service
-(c) Software as a service
+Explain the following cloud service models:
+
+a. Infrastructure as a service
+
+b. Platform as a service
+
+c. Software as a service
 
 ### Oppgave 9 - Multiple-choice
 
